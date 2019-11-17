@@ -2,14 +2,17 @@
 #define SAUVC2020_MOTOR_CONTROLLER_H
 # include "motor_driver.h"
 # include <vector>
+#include <map>
 
 class MotorController {
 private:
     std::vector <MotorDriver> motors {0};
-    void RegisterMotor(int no_of_motors);
+    std::map <std::string, std::vector<int>> motor_ids_for_motion;
+    void register_motor(int no_of_motors);
+    bool map_motion_to_motor_to_run();
 public:
     MotorController(int no_of_motors);
-    bool forward(double speed);
+    bool move_forward(double speed);
 };
 
 #endif //SAUVC2020_MOTOR_CONTROLLER_H
