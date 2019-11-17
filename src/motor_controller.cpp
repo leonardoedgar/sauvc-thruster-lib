@@ -10,8 +10,8 @@ MotorController::MotorController(int no_of_motors) {
 }
 
 void MotorController::register_motor(int no_of_motors) {
-    for (int id_to_register=1; id_to_register<no_of_motors; id_to_register++) {
-        motors.push_back(MotorDriver(id_to_register));
+    for (int id_to_register=1; id_to_register<=no_of_motors; id_to_register++) {
+        motors.insert(std::pair<int, MotorDriver>(id_to_register, MotorDriver(id_to_register)));
     }
 }
 

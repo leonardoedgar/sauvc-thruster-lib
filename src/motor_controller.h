@@ -6,7 +6,7 @@
 
 class MotorController {
 private:
-    std::vector <MotorDriver> motors {0};
+    std::map <int, MotorDriver> motors;
     std::map <std::string, std::vector<int>> motor_ids_for_motion;
     void register_motor(int no_of_motors);
     bool map_motion_to_motor_to_run();
