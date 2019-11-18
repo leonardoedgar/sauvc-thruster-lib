@@ -29,10 +29,11 @@ public:
 
     /**
      * A function to drive the robot forward.
+     * @param motion {string} indicates the motion to for the robot to produce
      * @param speed {double} represents the speed for the robot to move forward
      * @return {bool} indicates whether the execution of moving forward was successful or not
      */
-    bool move_forward(double speed);
+    bool move(std::string motion, double speed);
 };
 
 #endif //SAUVC2020_MOTOR_CONTROLLER_H

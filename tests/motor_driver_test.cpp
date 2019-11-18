@@ -1,12 +1,17 @@
 #include "gtest/gtest.h"
 #include "motor_driver.h"
-
+/**
+ * Test MotorDriver is able to initialise and sets its own id correctly.
+ */
 TEST(MotorDriver, correct_id_initialisation) {
     int test_id=5;
     MotorDriver sample_motor {test_id};
     ASSERT_EQ(sample_motor.retrieve_motor_id(), test_id);
 }
 
+/**
+ * Test MotorDriver's function run drives the motor with the desired speed.
+ */
 TEST(MotorDriver, run_with_correct_speed) {
     int test_id {1};
     MotorDriver sample_motor {test_id};

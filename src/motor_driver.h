@@ -6,6 +6,7 @@ private:
     // An integer that represents the id of the motor
     int id;
 public:
+    MotorDriver();
     MotorDriver(int id);
     /**
      * A function to retrieve the id of the motor.

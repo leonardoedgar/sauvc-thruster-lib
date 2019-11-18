@@ -1,7 +1,8 @@
-#include "motor_controller.h"
-#include "motor_driver.h"
-#include <string>
-#include <vector>
+# include "motor_controller.h"
+# include "motor_driver.h"
+# include <string>
+# include <vector>
+# include <iostream>
 
 MotorController::MotorController(int no_of_motors) {
     register_motor(no_of_motors);
@@ -21,10 +22,19 @@ bool MotorController::register_motor(int no_of_motors) {
 
 /**
  * The implementation of the function to drive the robot forward
+ * @param motion {string} indicates the motion for the robot to produce
  * @param speed {double} represents the speed for the robot to move forward
  * @return {bool} indicates whether the execution of moving forward was successful or not
  */
-bool MotorController::move_forward(double speed) {
+bool MotorController::move(std::string motion, double speed) {
+    if (motor_ids_for_motion.find(motion) != motor_ids_for_motion.end()) {
+        for (int motor_id_to_run: motor_ids_for_motion[motion]) {
+            motors[motor_id_to_run].run(speed);
+        }
+    }
+    else {
+        return false;
+    }
     return true;
 }
 

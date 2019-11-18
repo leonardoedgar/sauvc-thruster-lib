@@ -1,7 +1,12 @@
 #include "motor_driver.h"
 #include <iostream>
-MotorDriver::MotorDriver(int id): id{id=id}{
+MotorDriver::MotorDriver(int id): id{id}{
 
+}
+
+MotorDriver::MotorDriver() {
+    std::cout << "Motor driver without args is called\n";
+    MotorDriver(-1);
 }
 
 /**
