@@ -1,23 +1,24 @@
-#ifndef SAUVC2020_MOTOR_CONTROLLER_H
-#define SAUVC2020_MOTOR_CONTROLLER_H
+# ifndef SAUVC2020_MOTOR_CONTROLLER_H
+# define SAUVC2020_MOTOR_CONTROLLER_H
 # include "motor_driver.h"
 # include <vector>
 # include <map>
+# include <string>
 
 class MotorController {
 private:
-    // A hash table to contain all motors objects used as the value with its respective id as the key.
+    // A hash table to contain all motors objects used as the value with its respective pin as the key.
     std::map <int, MotorDriver> motors;
 
     // A hash table to map a motion type to motors to run
-    std::map <std::string, std::vector<int>> motor_ids_for_motion;
+    std::map <std::string, std::vector<int>> motor_pins_for_motion;
 
     /**
-     * A function to register motors needed with its respective id.
-     * @param no_of_motors {int} represents the number of motors to be registered
+     * A function to register motors needed with its respective pins.
+     * @param motor_pins {std::vector<int>} represents motors' pins to register
      * @return {bool} indicates whether the registration was successful or not
      */
-    bool register_motor(int no_of_motors);
+    bool register_motor(std::vector<int> motor_pins);
 
     /**
      * A function to store the mapping of a motion type to motor to be run.
@@ -25,10 +26,10 @@ private:
      */
     bool store_motion_to_motor_mapping();
 public:
-    MotorController(int no_of_motors);
+    MotorController(std::vector<int> motor_pins);
 
     /**
-     * A function to drive the robot forward.
+     * A function to move the robot.
      * @param motion {string} indicates the motion to for the robot to produce
      * @param speed {double} represents the speed for the robot to move forward
      * @return {bool} indicates whether the execution of moving forward was successful or not
