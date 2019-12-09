@@ -3,6 +3,7 @@
 # include <string>
 # include <vector>
 # include <map>
+# include <Arduino.h>
 MotorController::MotorController(std::vector<int> motor_pins) {
     register_motor(motor_pins);
     store_motion_to_motor_mapping();
@@ -28,15 +29,33 @@ bool MotorController::register_motor(std::vector<int> motor_pins) {
  */
 bool MotorController::move(std::string motion, double speed_percentage) {
     if (motor_pins_for_motion.find(motion) != motor_pins_for_motion.end()) {
+        Serial.println("====================================================");
+        String string_to_print = "Robot executing motion: [" + String(motion.c_str()) + "].";
+        Serial.println(string_to_print);
         for (const auto &[direction, motor_pins_to_run]: motor_pins_for_motion[motion]) {
             for (int motor_pin_to_run: motor_pins_to_run) {
                 motors[motor_pin_to_run].run(speed_percentage, direction);
             }
         }
+        Serial.println("====================================================");
     }
     else {
         return false;
     }
+    return true;
+}
+
+/**
+ * The implementation of the function to stop the robot from moving.
+ * @return {bool} indicates whether the stopping was successful or not.
+ */
+bool MotorController::stop() {
+    Serial.println("====================================================");
+    Serial.println("Robot executing motion: [stop].");
+    for (const auto &[pin, motor_driver]: motors) {
+        motors[pin].stop();
+    }
+    Serial.println("====================================================");
     return true;
 }
 

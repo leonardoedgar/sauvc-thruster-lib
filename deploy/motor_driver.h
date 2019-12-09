@@ -26,6 +26,11 @@ public:
      * @return {bool} that indicates whether the motor runs successfully or not
      */
     bool run(double speed, std::string direction);
+    /**
+     * A function to stop the motor.
+     * @return {bool} indicates whether the stopping was successful or not
+     */
+    bool stop();
 };
 
 #endif //SAUVC2020_MOTOR_DRIVER_H

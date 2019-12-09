@@ -41,6 +41,16 @@ bool MotorController::move(std::string motion, double speed_percentage) {
 }
 
 /**
+ * The implementation of the function to stop the robot from moving.
+ * @return {bool} indicates whether the stopping was successful or not.
+ */
+bool MotorController::stop() {
+    for (const auto &[pin, motor_driver]: motors) {
+        motors[pin].stop();
+    }
+    return true;
+}
+/**
  * The implementation of the function to store the mapping of motion type to run
  * @return {bool} indicates whether the storing was successful or not
  */

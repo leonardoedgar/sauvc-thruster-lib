@@ -40,6 +40,11 @@ public:
      * @return {bool} indicates whether the execution of moving forward was successful or not
      */
     bool move(std::string motion, double speed_percentage);
+    /**
+     * A function to stop the robot from moving.
+     * @return {bool} indicates whether the stopping was successful or not.
+     */
+    bool stop();
 };
 
 #endif //SAUVC2020_MOTOR_CONTROLLER_H

@@ -36,6 +36,16 @@ bool MotorDriver::run(double speed_percentage, std::string direction) {
         Serial.println(string_to_print);
     }
 }
+
+/**
+ * A function to stop the motor.
+ * @return {bool} indicates whether the stopping was successful or not
+ */
+bool MotorDriver::stop() {
+    run(0, "positive");
+    return true;
+}
+
 /**
  * The implementation of the function to map speed percentage to the esc input
  * @param speed_percentage {double} indicates the speed percentage to run the motor

@@ -44,3 +44,16 @@ TEST_F(MotorDriverTest, map_speed_percentage_to_esc_input) {
     ASSERT_EQ(sample_driver.map_speed_percentage_to_esc_input(200), sample_driver.map_speed_percentage_to_esc_input(100));
     ASSERT_EQ(sample_driver.map_speed_percentage_to_esc_input(-200), sample_driver.map_speed_percentage_to_esc_input(-100));
 }
+
+/**
+ * Test that MotorDriver stops correctly.
+ */
+TEST_F(MotorDriverTest, stop_motor) {
+    double esc_stop_value = 1500;
+    std::string desired_output = "Motor with pin: " + std::to_string(test_pin) + " is running with ESC input: " +
+            std::to_string(esc_stop_value) + ".\n";
+    testing::internal::CaptureStdout();
+    sample_driver.stop();
+    std::string actual_output = testing::internal::GetCapturedStdout();
+    ASSERT_EQ(actual_output, desired_output);
+}

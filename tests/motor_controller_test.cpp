@@ -56,3 +56,19 @@ TEST_F(MotorControllerTest, load_motion_config) {
     ASSERT_EQ(typeid(sample_controller.load_motion_config()),
             typeid(std::map<std::string, std::map<std::string, std::vector<int>>>));
 }
+
+/**
+ * Test that MotorController is able to stop all motors.
+ */
+TEST_F(MotorControllerTest, stop_all_motors) {
+    double esc_stop_value {1500};
+    std::string desired_output = "";
+    for (int motor_pin: motor_pins_to_register) {
+        desired_output += "Motor with pin: " + std::to_string(motor_pin) + " is running with ESC input: " +
+                std::to_string(esc_stop_value) + ".\n";
+    }
+    testing::internal::CaptureStdout();
+    sample_controller.stop();
+    std::string actual_output = testing::internal::GetCapturedStdout();
+    ASSERT_EQ(actual_output, desired_output);
+}

@@ -33,6 +33,16 @@ bool MotorDriver::run(double speed_percentage, std::string direction) {
         std::cout << "Motor with pin: " << pin << " is running with ESC input: " << map_speed_percentage_to_esc_input(-speed_percentage) << ".\n";
     }
 }
+
+/**
+ * A function to stop the motor.
+ * @return {bool} indicates whether the stopping was successful or not
+ */
+bool MotorDriver::stop() {
+    run(0, "positive");
+    return true;
+}
+
 /**
  * The implementation of the function to map speed percentage to the esc input
  * @param speed_percentage {double} indicates the speed percentage to run the motor
