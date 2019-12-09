@@ -2,6 +2,7 @@
 # include "motor_driver.h"
 # include <string>
 # include <vector>
+# include <map>
 MotorController::MotorController(std::vector<int> motor_pins) {
     register_motor(motor_pins);
     store_motion_to_motor_mapping();
@@ -22,13 +23,15 @@ bool MotorController::register_motor(std::vector<int> motor_pins) {
 /**
  * The implementation of the function to drive the robot forward
  * @param motion {string} indicates the motion for the robot to produce
- * @param speed {double} represents the speed for the robot to move forward
+ * @param speed_percentage {double} represents the speed percentage for the robot to move
  * @return {bool} indicates whether the execution of moving forward was successful or not
  */
-bool MotorController::move(std::string motion, double speed) {
+bool MotorController::move(std::string motion, double speed_percentage) {
     if (motor_pins_for_motion.find(motion) != motor_pins_for_motion.end()) {
-        for (int motor_pin_to_run: motor_pins_for_motion[motion]) {
-            motors[motor_pin_to_run].run(speed);
+        for (const auto &[direction, motor_pins_to_run]: motor_pins_for_motion[motion]) {
+            for (int motor_pin_to_run: motor_pins_to_run) {
+                motors[motor_pin_to_run].run(speed_percentage, direction);
+            }
         }
     }
     else {
@@ -42,6 +45,21 @@ bool MotorController::move(std::string motion, double speed) {
  * @return {bool} indicates whether the storing was successful or not
  */
 bool MotorController::store_motion_to_motor_mapping() {
-    std::vector<int> motor_pins_to_run_on_forward {1, 2, 3, 4};
-    motor_pins_for_motion.insert(std::pair<std::string, std::vector<int>>("forward", motor_pins_to_run_on_forward));
+    std::map<std::string, std::map<std::string, std::vector<int>>> motion_to_motor_config = load_motion_config();
+    for ( const auto &[motion, motor_config]: motion_to_motor_config ) {
+        motor_pins_for_motion.insert(std::pair<std::string, std::map<std::string, std::vector<int>>>(motion, motor_config));
+    }
+    return motor_pins_for_motion.size() == motion_to_motor_config.size();
+}
+
+/**
+ * The implementation of the function to load pre-defined motors' motion.
+ * @return {map} indicates the mapping of motion to motors
+ */
+std::map<std::string, std::map<std::string, std::vector<int>>> MotorController::load_motion_config() {
+    std::map<std::string, std::map<std::string, std::vector<int>>> motion_to_motor_pins_map {
+            {"forward", {{"positive", {1, 2, 3, 4}}}},
+            {"submerge", {{"positive", {5, 6, 7, 8}}}}
+    };
+    return motion_to_motor_pins_map;
 }
