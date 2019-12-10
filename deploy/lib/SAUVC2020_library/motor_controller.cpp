@@ -76,17 +76,27 @@ bool MotorController::store_motion_to_motor_mapping() {
  * @return {map} indicates the mapping of motion to motors
  */
 std::map<std::string, std::map<std::string, std::vector<int>>> MotorController::load_motion_config() {
+    int motor_id_1_pin {1}, motor_id_2_pin {2}, motor_id_3_pin {3}, motor_id_4_pin {4}, motor_id_5_pin {5},
+            motor_id_6_pin {6}, motor_id_7_pin {7}, motor_id_8_pin {8};
     std::map<std::string, std::map<std::string, std::vector<int>>> motion_to_motor_pins_map {
-            {"forward", {{"positive", {1, 2, 3, 4}}}},
-            {"backward", {{"negative", {1, 2, 3, 4}}}},
-            {"submerge", {{"positive", {6, 7}}, {"negative", {5, 8}}}},
-            {"surface", {{"positive", {5, 8}}, {"negative", {6, 7}}}},
-            {"rotate-left", {{"positive", {1, 4}}, {"negative", {2, 3}}}},
-            {"rotate-right", {{"positive", {2, 3}}, {"negative", {1, 4}}}},
-            {"roll-left", {{"positive", {5, 6}}, {"negative", {7, 8}}}},
-            {"roll-right", {{"positive", {7, 8}}, {"negative", {5, 6}}}},
-            {"pitch-forward", {{"positive", {5, 7}}, {"negative", {6, 8}}}},
-            {"pitch-backward", {{"positive", {6, 8}}, {"negative", {5, 7}}}}
+            {"forward", {{"positive", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}}},
+            {"backward", {{"negative", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}}},
+            {"submerge", {{"positive", {motor_id_6_pin, motor_id_7_pin}},
+                                {"negative", {motor_id_5_pin, motor_id_8_pin}}}},
+            {"surface", {{"positive", {motor_id_5_pin, motor_id_8_pin}},
+                                {"negative", {motor_id_6_pin, motor_id_7_pin}}}},
+            {"rotate-left", {{"positive", {motor_id_1_pin, motor_id_4_pin}},
+                                {"negative", {motor_id_2_pin, motor_id_3_pin}}}},
+            {"rotate-right", {{"positive", {motor_id_2_pin, motor_id_3_pin}},
+                                {"negative", {motor_id_1_pin, motor_id_4_pin}}}},
+            {"roll-left", {{"positive", {motor_id_5_pin, motor_id_6_pin}},
+                                {"negative", {motor_id_7_pin, motor_id_8_pin}}}},
+            {"roll-right", {{"positive", {motor_id_7_pin, motor_id_8_pin}},
+                                {"negative", {motor_id_5_pin, motor_id_6_pin}}}},
+            {"pitch-forward", {{"positive", {motor_id_5_pin, motor_id_7_pin}},
+                                {"negative", {motor_id_6_pin, motor_id_8_pin}}}},
+            {"pitch-backward", {{"positive", {motor_id_6_pin, motor_id_8_pin}},
+                                {"negative", {motor_id_5_pin, motor_id_7_pin}}}}
     };
     return motion_to_motor_pins_map;
 }
