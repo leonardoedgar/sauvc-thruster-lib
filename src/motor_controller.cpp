@@ -69,7 +69,15 @@ bool MotorController::store_motion_to_motor_mapping() {
 std::map<std::string, std::map<std::string, std::vector<int>>> MotorController::load_motion_config() {
     std::map<std::string, std::map<std::string, std::vector<int>>> motion_to_motor_pins_map {
             {"forward", {{"positive", {1, 2, 3, 4}}}},
-            {"submerge", {{"positive", {5, 6, 7, 8}}}}
+            {"backward", {{"negative", {1, 2, 3, 4}}}},
+            {"submerge", {{"positive", {6, 7}}, {"negative", {5, 8}}}},
+            {"surface", {{"positive", {5, 8}}, {"negative", {6, 7}}}},
+            {"rotate-left", {{"positive", {1, 4}}, {"negative", {2, 3}}}},
+            {"rotate-right", {{"positive", {2, 3}}, {"negative", {1, 4}}}},
+            {"roll-left", {{"positive", {5, 6}}, {"negative", {7, 8}}}},
+            {"roll-right", {{"positive", {7, 8}}, {"negative", {5, 6}}}},
+            {"pitch-forward", {{"positive", {5, 7}}, {"negative", {6, 8}}}},
+            {"pitch-backward", {{"positive", {6, 8}}, {"negative", {5, 7}}}}
     };
     return motion_to_motor_pins_map;
 }

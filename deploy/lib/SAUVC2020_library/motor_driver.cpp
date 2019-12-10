@@ -3,7 +3,8 @@
 # include <string>
 # include <Servo.h>
 MotorDriver::MotorDriver(int pin): pin{pin}{
-
+//     servo_object.attach(pin);
+    // servo_object.writeMicroseconds(1500);
 }
 
 MotorDriver::MotorDriver() {
@@ -29,11 +30,13 @@ bool MotorDriver::run(double speed_percentage, std::string direction) {
         String string_to_print = "Motor with pin: " + String(pin) + " is running with ESC input: " +
                 String(map_speed_percentage_to_esc_input(speed_percentage)) + ".";
         Serial.println(string_to_print);
+        // servo_object.writeMicroseconds(map_speed_percentage_to_esc_input(speed_percentage));
     }
     else if (direction == "negative") {
         String string_to_print = "Motor with pin: " + String(pin) + " is running with ESC input: " +
                 String(map_speed_percentage_to_esc_input(-speed_percentage)) + ".";
         Serial.println(string_to_print);
+        // servo_object.writeMicroseconds(map_speed_percentage_to_esc_input(-speed_percentage));
     }
 }
 

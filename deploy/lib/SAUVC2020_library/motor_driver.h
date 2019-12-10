@@ -1,10 +1,14 @@
 # ifndef SAUVC2020_MOTOR_DRIVER_H
 # define SAUVC2020_MOTOR_DRIVER_H
 # include <string>
+# include <Arduino.h>
+# include <Servo.h>
 class MotorDriver {
 private:
     // An integer that represents the pin of the motor
     int pin;
+    // A servo object that represents the actual servo motor.
+//     Servo servo_object;
     /**
     * The implementation of the function to map speed percentage to the esc input
     * @param speed_percentage {double} indicates the speed percentage to run the motor
