@@ -20,12 +20,12 @@ TEST_F(MotorDriverTest, correct_id_initialisation) {
 TEST_F(MotorDriverTest, run_with_correct_speed) {
     int min_esc_input = 1500, max_esc_input = 1700;
     double test_speed_percentage {50};
-    std::string test_direction {"negative"};
+    std::string test_direction {"reverse"};
     int esc_input;
-    if (test_direction == "positive") {
+    if (test_direction == "forward") {
         esc_input = int(min_esc_input + (max_esc_input-min_esc_input)*test_speed_percentage/100);
     }
-    else if (test_direction == "negative") {
+    else if (test_direction == "reverse") {
         esc_input = int(min_esc_input - (max_esc_input-min_esc_input)*test_speed_percentage/100);
     }
     std::string desired_output = "Motor with pin: " + std::to_string(test_pin) + " is running with ESC input: " +

@@ -7,7 +7,6 @@ MotorDriver::MotorDriver(int pin): pin{pin}{
 
 MotorDriver::MotorDriver() {
     std::cout << "Motor driver without args is called\n.";
-    MotorDriver(-1);
 }
 
 /**
@@ -24,13 +23,20 @@ int MotorDriver::get_motor_pin() {
  * @return {bool} indicates whether the motor runs successfully or not
  */
 bool MotorDriver::run(double speed_percentage, std::string direction) {
-    if (direction == "positive") {
+    if (direction == "forward") {
         std::cout << std::fixed;
         std::cout << "Motor with pin: " << pin << " is running with ESC input: " << map_speed_percentage_to_esc_input(speed_percentage) << ".\n";
     }
-    else if (direction == "negative") {
+    else if (direction == "reverse") {
         std::cout << std::fixed;
         std::cout << "Motor with pin: " << pin << " is running with ESC input: " << map_speed_percentage_to_esc_input(-speed_percentage) << ".\n";
+    }
+    else if (direction == "stop") {
+        std::cout << std::fixed;
+        std::cout << "Motor with pin: " << pin << " is running with ESC input: " << map_speed_percentage_to_esc_input(0) << ".\n";
+    }
+    else {
+        std::cout << "Motor with pin: " << pin << " is running with unknown direction.\n";
     }
 }
 
@@ -39,7 +45,7 @@ bool MotorDriver::run(double speed_percentage, std::string direction) {
  * @return {bool} indicates whether the stopping was successful or not
  */
 bool MotorDriver::stop() {
-    run(0, "positive");
+    run(0, "stop");
     return true;
 }
 

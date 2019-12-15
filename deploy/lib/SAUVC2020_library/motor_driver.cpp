@@ -25,17 +25,26 @@ byte MotorDriver::get_motor_pin() {
  * @return {bool} indicates whether the motor runs successfully or not
  */
 bool MotorDriver::run(double speed_percentage, std::string direction) {
-    if (direction == "positive") {
-        String string_to_print = "Motor with pin: " + String(pin) + " is running with ESC input: " +
-                String(map_speed_percentage_to_esc_input(speed_percentage)) + ".";
-        Serial.println(string_to_print);
+    if (direction == "forward") {
+        Serial.println(
+                "Motor with pin: " + String(pin) + " is running with ESC input: " +
+                String(map_speed_percentage_to_esc_input(speed_percentage)) + ".");
         servo_object.writeMicroseconds(map_speed_percentage_to_esc_input(speed_percentage));
     }
-    else if (direction == "negative") {
-        String string_to_print = "Motor with pin: " + String(pin) + " is running with ESC input: " +
-                String(map_speed_percentage_to_esc_input(-speed_percentage)) + ".";
-        Serial.println(string_to_print);
+    else if (direction == "reverse") {
+        Serial.println(
+                "Motor with pin: " + String(pin) + " is running with ESC input: " +
+                String(map_speed_percentage_to_esc_input(-speed_percentage)) + ".");
         servo_object.writeMicroseconds(map_speed_percentage_to_esc_input(-speed_percentage));
+    }
+    else if (direction == "stop") {
+        Serial.println(
+                "Motor with pin: " + String(pin) + " is running with ESC input: " +
+                String(map_speed_percentage_to_esc_input(0)) + ".");
+        servo_object.writeMicroseconds(map_speed_percentage_to_esc_input(0));
+    }
+    else {
+        Serial.println("Motor with pin: " + String(pin) + " is running with unknown direction.");
     }
 }
 

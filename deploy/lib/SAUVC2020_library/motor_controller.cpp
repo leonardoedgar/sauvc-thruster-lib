@@ -94,24 +94,64 @@ std::map<std::string, std::map<std::string, std::vector<byte>>> MotorController:
     byte motor_id_1_pin {3}, motor_id_2_pin {4}, motor_id_3_pin {5}, motor_id_4_pin {6}, motor_id_5_pin {7},
             motor_id_6_pin {8}, motor_id_7_pin {9}, motor_id_8_pin {10};
     std::map<std::string, std::map<std::string, std::vector<byte>>> motion_to_motor_pins_map {
-            {"forward", {{"positive", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}}},
-            {"backward", {{"negative", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}}},
-            {"submerge", {{"positive", {motor_id_6_pin, motor_id_7_pin}},
-                                {"negative", {motor_id_5_pin, motor_id_8_pin}}}},
-            {"surface", {{"positive", {motor_id_5_pin, motor_id_8_pin}},
-                                {"negative", {motor_id_6_pin, motor_id_7_pin}}}},
-            {"rotate-left", {{"positive", {motor_id_1_pin, motor_id_3_pin}},
-                                {"negative", {motor_id_2_pin, motor_id_4_pin}}}},
-            {"rotate-right", {{"positive", {motor_id_2_pin, motor_id_4_pin}},
-                                {"negative", {motor_id_1_pin, motor_id_3_pin}}}},
-            {"roll-right", {{"positive", {motor_id_5_pin, motor_id_6_pin}},
-                                {"negative", {motor_id_7_pin, motor_id_8_pin}}}},
-            {"roll-left", {{"positive", {motor_id_7_pin, motor_id_8_pin}},
-                                {"negative", {motor_id_5_pin, motor_id_6_pin}}}},
-            {"pitch-backward", {{"positive", {motor_id_5_pin, motor_id_7_pin}},
-                                {"negative", {motor_id_6_pin, motor_id_8_pin}}}},
-            {"pitch-forward", {{"positive", {motor_id_6_pin, motor_id_8_pin}},
-                                {"negative", {motor_id_5_pin, motor_id_7_pin}}}}
+            {"forward", {
+                    {"forward", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"backward", {
+                    {"reverse", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"submerge", {
+                    {"forward", {motor_id_6_pin, motor_id_7_pin}},
+                    {"reverse", {motor_id_5_pin, motor_id_8_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }},
+            {"surface", {
+                    {"forward", {motor_id_5_pin, motor_id_8_pin}},
+                    {"reverse", {motor_id_6_pin, motor_id_7_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }},
+            {"rotate-left", {
+                    {"forward", {motor_id_1_pin, motor_id_3_pin}},
+                    {"reverse", {motor_id_2_pin, motor_id_4_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"rotate-right", {
+                    {"forward", {motor_id_2_pin, motor_id_4_pin}},
+                    {"reverse", {motor_id_1_pin, motor_id_3_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"translate-left", {
+                    {"forward", {motor_id_1_pin, motor_id_4_pin}},
+                    {"reverse", {motor_id_2_pin, motor_id_3_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"translate-right", {
+                    {"forward", {motor_id_2_pin, motor_id_3_pin}},
+                    {"reverse", {motor_id_1_pin, motor_id_4_pin}},
+                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            }},
+            {"roll-right", {
+                    {"forward", {motor_id_5_pin, motor_id_6_pin}},
+                    {"reverse", {motor_id_7_pin, motor_id_8_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }},
+            {"roll-left", {
+                    {"forward", {motor_id_7_pin, motor_id_8_pin}},
+                    {"reverse", {motor_id_5_pin, motor_id_6_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }},
+            {"pitch-backward", {
+                    {"forward", {motor_id_5_pin, motor_id_7_pin}},
+                    {"reverse", {motor_id_6_pin, motor_id_8_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }},
+            {"pitch-forward", {
+                    {"forward", {motor_id_6_pin, motor_id_8_pin}},
+                    {"reverse", {motor_id_5_pin, motor_id_7_pin}},
+                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            }}
     };
     return motion_to_motor_pins_map;
 }

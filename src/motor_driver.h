@@ -5,15 +5,18 @@ class MotorDriver {
 private:
     // An integer that represents the pin of the motor
     int pin;
+
     /**
     * The implementation of the function to map speed percentage to the esc input
     * @param speed_percentage {double} indicates the speed percentage to run the motor
     * @return {int} represents the esc input
     */
     int map_speed_percentage_to_esc_input(double speed_percentage);
+
 public:
     MotorDriver();
     MotorDriver(int pin);
+
     /**
      * A function to get the pin of the motor.
      * @return {int} the pin of the motor
@@ -26,6 +29,7 @@ public:
      * @return {bool} that indicates whether the motor runs successfully or not
      */
     bool run(double speed, std::string direction);
+
     /**
      * A function to stop the motor.
      * @return {bool} indicates whether the stopping was successful or not

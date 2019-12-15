@@ -25,13 +25,20 @@ private:
      * @return {bool} indicates whether the storing was successful or not
      */
     bool store_motion_to_motor_mapping();
+
     /**
     * A function to load pre-defined motors' motion.
     * @return {map} indicates the mapping of motion to motors
     */
     std::map<std::string, std::map<std::string, std::vector<int>>> load_motion_config();
+
 public:
-    MotorController(std::vector<int> motor_pins);
+    /**
+    * A function to setup the motor controller
+    * @param motor_pins {std::vector<int>} indicates motor pins to register
+    * @return {bool} indicates whether the setup was successful or not
+    */
+    bool setup(std::vector<int> motor_pins);
 
     /**
      * A function to move the robot.
@@ -40,6 +47,7 @@ public:
      * @return {bool} indicates whether the execution of moving forward was successful or not
      */
     bool move(std::string motion, double speed_percentage);
+
     /**
      * A function to stop the robot from moving.
      * @return {bool} indicates whether the stopping was successful or not.

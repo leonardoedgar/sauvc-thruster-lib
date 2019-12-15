@@ -7,7 +7,10 @@
 class MotorControllerTest:public::testing::Test {
 protected:
     std::vector<int> motor_pins_to_register {1, 2, 3, 4, 5, 6, 7, 8};
-    MotorController sample_controller {motor_pins_to_register};
+    MotorController sample_controller;
+    virtual void SetUp() {
+        sample_controller.setup(motor_pins_to_register);
+    }
 };
 
 /**
@@ -24,8 +27,9 @@ TEST_F(MotorControllerTest, motor_registration) {
  * Test that MotorController creates a correct map based on the specified motion type and motors needed to drive specified.
  */
 TEST_F(MotorControllerTest, mapping_of_motion_to_motors) {
-    std::vector<int> motor_pins_to_run_on_forward {1, 2, 3, 4};
-    ASSERT_EQ(sample_controller.motor_pins_for_motion["forward"]["positive"], motor_pins_to_run_on_forward);
+    std::vector<int> motor_pins_to_run_forward {1, 2, 3, 4}, motor_pins_to_stop {5, 6, 7, 8};
+    ASSERT_EQ(sample_controller.motor_pins_for_motion["forward"]["forward"], motor_pins_to_run_forward);
+    ASSERT_EQ(sample_controller.motor_pins_for_motion["forward"]["stop"], motor_pins_to_stop);
 }
 
 /**
@@ -39,8 +43,14 @@ TEST_F(MotorControllerTest, move_forward_with_desired_motors_and_speed) {
     std::string desired_output = "";
     for (const auto &[direction, motor_pins_to_run]: motor_pins_for_motion_forward) {
         for (int motor_pin_to_run: motor_pins_to_run) {
-            desired_output += "Motor with pin: " + std::to_string(motor_pin_to_run) + " is running with ESC input: " +
-                              std::to_string(esc_input) + ".\n";
+            if (direction == "forward") {
+                desired_output += "Motor with pin: " + std::to_string(motor_pin_to_run) + " is running with ESC input: " +
+                                  std::to_string(esc_input) + ".\n";
+            }
+            else if (direction == "stop") {
+                desired_output += "Motor with pin: " + std::to_string(motor_pin_to_run) + " is running with ESC input: " +
+                                  std::to_string(min_esc_input) + ".\n";;
+            }
         }
     }
     testing::internal::CaptureStdout();
