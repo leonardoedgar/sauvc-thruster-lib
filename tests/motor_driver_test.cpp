@@ -21,12 +21,12 @@ TEST_F(MotorDriverTest, run_with_correct_speed) {
     int min_esc_input = 1500, max_esc_input = 1700;
     double test_speed_percentage {50};
     std::string test_direction {"negative"};
-    double esc_input;
+    int esc_input;
     if (test_direction == "positive") {
-        esc_input = min_esc_input + (max_esc_input-min_esc_input)*test_speed_percentage/100;
+        esc_input = int(min_esc_input + (max_esc_input-min_esc_input)*test_speed_percentage/100);
     }
     else if (test_direction == "negative") {
-        esc_input = min_esc_input - (max_esc_input-min_esc_input)*test_speed_percentage/100;
+        esc_input = int(min_esc_input - (max_esc_input-min_esc_input)*test_speed_percentage/100);
     }
     std::string desired_output = "Motor with pin: " + std::to_string(test_pin) + " is running with ESC input: " +
             std::to_string(esc_input)+ ".\n";
@@ -49,7 +49,7 @@ TEST_F(MotorDriverTest, map_speed_percentage_to_esc_input) {
  * Test that MotorDriver stops correctly.
  */
 TEST_F(MotorDriverTest, stop_motor) {
-    double esc_stop_value = 1500;
+    int esc_stop_value = 1500;
     std::string desired_output = "Motor with pin: " + std::to_string(test_pin) + " is running with ESC input: " +
             std::to_string(esc_stop_value) + ".\n";
     testing::internal::CaptureStdout();

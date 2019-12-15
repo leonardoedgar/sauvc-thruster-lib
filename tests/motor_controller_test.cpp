@@ -34,7 +34,7 @@ TEST_F(MotorControllerTest, mapping_of_motion_to_motors) {
 TEST_F(MotorControllerTest, move_forward_with_desired_motors_and_speed) {
     double test_speed_percentage {60};
     int min_esc_input = 1500, max_esc_input = 1700;
-    double esc_input {min_esc_input + (max_esc_input-min_esc_input)*test_speed_percentage/100};
+    int esc_input {int(min_esc_input + (max_esc_input-min_esc_input)*test_speed_percentage/100)};
     std::map<std::string, std::vector<int>> motor_pins_for_motion_forward = sample_controller.motor_pins_for_motion["forward"];
     std::string desired_output = "";
     for (const auto &[direction, motor_pins_to_run]: motor_pins_for_motion_forward) {
@@ -61,7 +61,7 @@ TEST_F(MotorControllerTest, load_motion_config) {
  * Test that MotorController is able to stop all motors.
  */
 TEST_F(MotorControllerTest, stop_all_motors) {
-    double esc_stop_value {1500};
+    int esc_stop_value {1500};
     std::string desired_output = "";
     for (int motor_pin: motor_pins_to_register) {
         desired_output += "Motor with pin: " + std::to_string(motor_pin) + " is running with ESC input: " +

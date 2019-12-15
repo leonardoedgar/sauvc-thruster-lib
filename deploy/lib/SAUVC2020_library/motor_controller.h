@@ -8,17 +8,17 @@
 class MotorController {
 private:
     // A hash table to contain all motors objects used as the value with its respective pin as the key.
-    std::map <int, MotorDriver> motors;
+    std::map <byte, MotorDriver> motors;
 
     // A hash table to map a motion type to motors to run
-    std::map <std::string, std::map<std::string, std::vector<int>>> motor_pins_for_motion;
+    std::map <std::string, std::map<std::string, std::vector<byte>>> motor_pins_for_motion;
 
     /**
      * A function to register motors needed with its respective pins.
-     * @param motor_pins {std::vector<int>} represents motors' pins to register
+     * @param motor_pins {std::vector<byte>} represents motors' pins to register
      * @return {bool} indicates whether the registration was successful or not
      */
-    bool register_motor(std::vector<int> motor_pins);
+    bool register_motor(std::vector<byte> motor_pins);
 
     /**
      * A function to store the mapping of a motion type to motor to be run.
@@ -29,10 +29,14 @@ private:
     * A function to load pre-defined motors' motion.
     * @return {map} indicates the mapping of motion to motors
     */
-    std::map<std::string, std::map<std::string, std::vector<int>>> load_motion_config();
+    std::map<std::string, std::map<std::string, std::vector<byte>>> load_motion_config();
 public:
-    MotorController(std::vector<int> motor_pins);
-
+    /**
+    * A function to setup the motor controller
+    * @param motor_pins {std::vector<byte>} indicates motor pins to register
+    * @return {bool} indicates whether the setup was successful or not
+    */
+    bool setup(std::vector<byte> motor_pins);
     /**
      * A function to move the robot.
      * @param motion {string} indicates the motion to for the robot to produce

@@ -8,9 +8,9 @@ private:
     /**
     * The implementation of the function to map speed percentage to the esc input
     * @param speed_percentage {double} indicates the speed percentage to run the motor
-    * @return {double} represents the esc input
+    * @return {int} represents the esc input
     */
-    double map_speed_percentage_to_esc_input(double speed_percentage);
+    int map_speed_percentage_to_esc_input(double speed_percentage);
 public:
     MotorDriver();
     MotorDriver(int pin);

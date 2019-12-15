@@ -6,23 +6,23 @@
 class MotorDriver {
 private:
     // An integer that represents the pin of the motor
-    int pin;
+    byte pin;
     // A servo object that represents the actual servo motor.
-//     Servo servo_object;
+    Servo servo_object;
     /**
     * The implementation of the function to map speed percentage to the esc input
     * @param speed_percentage {double} indicates the speed percentage to run the motor
     * @return {double} represents the esc input
     */
-    double map_speed_percentage_to_esc_input(double speed_percentage);
+    int map_speed_percentage_to_esc_input(double speed_percentage);
 public:
+    MotorDriver(byte pin);
     MotorDriver();
-    MotorDriver(int pin);
     /**
      * A function to get the pin of the motor.
      * @return {int} the pin of the motor
      */
-    int get_motor_pin();
+    byte get_motor_pin();
 
     /**
      * A function to run the motor at a certain speed.

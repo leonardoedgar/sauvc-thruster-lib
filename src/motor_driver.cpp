@@ -46,9 +46,9 @@ bool MotorDriver::stop() {
 /**
  * The implementation of the function to map speed percentage to the esc input
  * @param speed_percentage {double} indicates the speed percentage to run the motor
- * @return {double} represents the esc input
+ * @return {int} represents the esc input
  */
-double MotorDriver::map_speed_percentage_to_esc_input(double speed_percentage) {
+int MotorDriver::map_speed_percentage_to_esc_input(double speed_percentage) {
     int max_esc_input = 1700, min_esc_input = 1500;
     int max_speed_percentage = 100, min_speed_percentage = -100;
     if (speed_percentage > max_speed_percentage) {
@@ -57,5 +57,5 @@ double MotorDriver::map_speed_percentage_to_esc_input(double speed_percentage) {
     else if (speed_percentage < min_speed_percentage){
         speed_percentage = min_speed_percentage;
     }
-    return min_esc_input + (max_esc_input-min_esc_input)*speed_percentage/100;
+    return int(min_esc_input + (max_esc_input-min_esc_input)*speed_percentage/100);
 }
