@@ -121,37 +121,37 @@ std::map<std::string, std::map<std::string, std::vector<byte>>> MotorController:
                     {"forward", {motor_id_2_pin, motor_id_4_pin}},
                     {"reverse", {motor_id_1_pin, motor_id_3_pin}},
                     {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"translate-left", {
-                    {"forward", {motor_id_1_pin, motor_id_4_pin}},
-                    {"reverse", {motor_id_2_pin, motor_id_3_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"translate-right", {
-                    {"forward", {motor_id_2_pin, motor_id_3_pin}},
-                    {"reverse", {motor_id_1_pin, motor_id_4_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"roll-right", {
-                    {"forward", {motor_id_5_pin, motor_id_6_pin}},
-                    {"reverse", {motor_id_7_pin, motor_id_8_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            }},
-            {"roll-left", {
-                    {"forward", {motor_id_7_pin, motor_id_8_pin}},
-                    {"reverse", {motor_id_5_pin, motor_id_6_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            }},
-            {"pitch-backward", {
-                    {"forward", {motor_id_5_pin, motor_id_7_pin}},
-                    {"reverse", {motor_id_6_pin, motor_id_8_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            }},
-            {"pitch-forward", {
-                    {"forward", {motor_id_6_pin, motor_id_8_pin}},
-                    {"reverse", {motor_id_5_pin, motor_id_7_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
             }}
+            // {"translate-left", {
+            //         {"forward", {motor_id_1_pin, motor_id_4_pin}},
+            //         {"reverse", {motor_id_2_pin, motor_id_3_pin}},
+            //         {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            // }},
+            // {"translate-right", {
+            //         {"forward", {motor_id_2_pin, motor_id_3_pin}},
+            //         {"reverse", {motor_id_1_pin, motor_id_4_pin}},
+            //         {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
+            // }},
+            // {"roll-right", {
+            //         {"forward", {motor_id_5_pin, motor_id_6_pin}},
+            //         {"reverse", {motor_id_7_pin, motor_id_8_pin}},
+            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            // }},
+            // {"roll-left", {
+            //         {"forward", {motor_id_7_pin, motor_id_8_pin}},
+            //         {"reverse", {motor_id_5_pin, motor_id_6_pin}},
+            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            // }},
+            // {"pitch-backward", {
+            //         {"forward", {motor_id_5_pin, motor_id_7_pin}},
+            //         {"reverse", {motor_id_6_pin, motor_id_8_pin}},
+            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            // }},
+            // {"pitch-forward", {
+            //         {"forward", {motor_id_6_pin, motor_id_8_pin}},
+            //         {"reverse", {motor_id_5_pin, motor_id_7_pin}},
+            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
+            // }}
     };
     return motion_to_motor_pins_map;
 }

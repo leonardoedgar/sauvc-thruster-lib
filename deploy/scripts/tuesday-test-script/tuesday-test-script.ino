@@ -10,38 +10,34 @@ MotorController motor_controller;
 
 // Initialise variable to setup timer during robot operation
 unsigned long start_time;
-unsigned long operating_timeout = 15;
+unsigned long operating_timeout = 15000;
+unsigned long time_elapsed;
 
 // Initialise e-stop pin
-const byte e_stop_pin = 10;
-bool estop_status_change = false;
+const byte e_stop_pin = 2;
 
 // Initialise depth sensor
 MS5837 depth_sensor;
 float initial_depth;
-float operating_depth = -1, depth_tolerance = 0.25, current_depth = 0;
+float operating_depth = -1, depth_tolerance = 0.25;
 
 // Initialise the state of the robot
-std::map <String, std::map<String, String>> state_map = {
-  {"stop", {{"next", "run"}}},
-  {"run", {{"next", "stop"}}}
-};
-String state = "stop";
+volatile byte state = LOW;
 
 void setup() {
   // Setup serial monitor
   Serial.begin(9600);
-  
+
   // Setup motor controller
   motor_controller.setup(motor_pins);
 
   // Setup e-stop pin
-   pinMode(e_stop_pin, INPUT_PULLUP);
+   pinMode(e_stop_pin, INPUT);
    attachInterrupt(digitalPinToInterrupt(e_stop_pin), transit_state, CHANGE);
 
    // Setup depth sensor
-   Wire.begin();
-  while (!depth_sensor.init()) {
+    Wire.begin();
+    while (!depth_sensor.init()) {
     Serial.println("Init failed!");
     Serial.println("Are SDA/SCL connected correctly?");
     Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
@@ -53,14 +49,14 @@ void setup() {
 }
 
 void loop() {
-  if (state == "stop") {
+  if (state == LOW) {
     Serial.println("Robot state: stop");
     motor_controller.stop();
     start_time = millis();
   }
-  else if (state == "run") {
+  else if (state == HIGH) {
     Serial.println("Robot state: run");
-    unsigned long time_elapsed = millis() - start_time;
+    time_elapsed = millis() - start_time;
     initial_depth = get_current_depth();
     if (time_elapsed > operating_timeout) {
       motor_controller.stop();
@@ -84,7 +80,7 @@ void loop() {
  * return {bool} that indicates whether the interrupt callback is successful or not.
  */
 bool transit_state () {
-  state = state_map[state]["next"];
+  state = !state;
   return true;
 }
 
