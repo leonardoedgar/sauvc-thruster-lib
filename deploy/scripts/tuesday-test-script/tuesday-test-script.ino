@@ -8,12 +8,17 @@
 std::vector<byte> motor_pins {3, 4, 5, 6, 7, 8, 9, 10}; 
 MotorController motor_controller;
 
+// Initialise variable to setup timer during robot operation
+unsigned long start_time;
+unsigned long operating_timeout = 15;
+
 // Initialise e-stop pin
 const byte e_stop_pin = 10;
 bool estop_status_change = false;
 
 // Initialise depth sensor
 MS5837 depth_sensor;
+float initial_depth;
 float operating_depth = -1, depth_tolerance = 0.25, current_depth = 0;
 
 // Initialise the state of the robot
@@ -31,30 +36,43 @@ void setup() {
   motor_controller.setup(motor_pins);
 
   // Setup e-stop pin
-//   pinMode(e_stop_pin, INPUT_PULLUP);
-//   attachInterrupt(digitalPinToInterrupt(e_stop_pin), transit_state, CHANGE);
+   pinMode(e_stop_pin, INPUT_PULLUP);
+   attachInterrupt(digitalPinToInterrupt(e_stop_pin), transit_state, CHANGE);
 
    // Setup depth sensor
-//   Wire.begin();
-//  while (!depth_sensor.init()) {
-//    Serial.println("Init failed!");
-//    Serial.println("Are SDA/SCL connected correctly?");
-//    Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
-//    Serial.println("\n\n\n");
-//    delay(5000);
-//  }
-//  depth_sensor.setModel(MS5837::MS5837_30BA);
-//  depth_sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
+   Wire.begin();
+  while (!depth_sensor.init()) {
+    Serial.println("Init failed!");
+    Serial.println("Are SDA/SCL connected correctly?");
+    Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
+    Serial.println("\n\n\n");
+    delay(5000);
+  }
+  depth_sensor.setModel(MS5837::MS5837_30BA);
+  depth_sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
 }
 
 void loop() {
   if (state == "stop") {
     Serial.println("Robot state: stop");
     motor_controller.stop();
+    start_time = millis();
   }
   else if (state == "run") {
     Serial.println("Robot state: run");
-    if (get_current_depth > )
+    unsigned long time_elapsed = millis() - start_time;
+    initial_depth = get_current_depth();
+    if (time_elapsed > operating_timeout) {
+      motor_controller.stop();
+    }
+    else {
+      if (operating_depth - depth_tolerance < get_current_depth() - initial_depth < operating_depth + depth_tolerance) {
+        motor_controller.move("forward", 50);
+      }
+      else {
+        motor_controller.move("submerge", 50);
+      }
+    }
   }
   else {
     Serial.println("Robot state: unknown");
