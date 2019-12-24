@@ -87,19 +87,19 @@ bool MotorController::store_motion_to_motor_mapping() {
  * @return {map} indicates the mapping of motion to motors
  */
 std::map<std::string, std::map<byte, int>> MotorController::load_motion_to_motor_config() {
-    std::map<std::string, std::map<byte, int>> motion_to_motor_pins_map {
-            {"forward", {MOTOR_AND_ESC_INPUT_FOR_FORWARD}},
-            {"backward", {MOTOR_AND_ESC_INPUT_FOR_BACKWARD}},
-            {"submerge", {MOTOR_AND_ESC_INPUT_FOR_SUBMERGE}},
-            {"surface", {MOTOR_AND_ESC_INPUT_FOR_SURFACE}},
-            {"rotate-left", {MOTOR_AND_ESC_INPUT_FOR_ROTATE_LEFT}},
-            {"rotate-right", {MOTOR_AND_ESC_INPUT_FOR_ROTATE_RIGHT}},
-            {"translate-left", {MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_LEFT}},
+    std::map<std::string, std::map<byte, int>> motion_to_motor_pins_map{
+            {"forward",         {MOTOR_AND_ESC_INPUT_FOR_FORWARD}},
+            {"backward",        {MOTOR_AND_ESC_INPUT_FOR_BACKWARD}},
+            {"submerge",        {MOTOR_AND_ESC_INPUT_FOR_SUBMERGE}},
+            {"surface",         {MOTOR_AND_ESC_INPUT_FOR_SURFACE}},
+            {"rotate-left",     {MOTOR_AND_ESC_INPUT_FOR_ROTATE_LEFT}},
+            {"rotate-right",    {MOTOR_AND_ESC_INPUT_FOR_ROTATE_RIGHT}},
+            {"translate-left",  {MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_LEFT}},
             {"translate-right", {MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_RIGHT}},
-            {"roll-left", {MOTOR_AND_ESC_INPUT_FOR_ROLL_LEFT}},
-            {"roll-right", {MOTOR_AND_ESC_INPUT_FOR_ROLL_RIGHT}},
-            {"pitch-forward", {MOTOR_AND_ESC_INPUT_FOR_PITCH_FORWARD}},
-            {"pitch-backward", {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
+            {"roll-left",       {MOTOR_AND_ESC_INPUT_FOR_ROLL_LEFT}},
+            {"roll-right",      {MOTOR_AND_ESC_INPUT_FOR_ROLL_RIGHT}},
+            {"pitch-forward",   {MOTOR_AND_ESC_INPUT_FOR_PITCH_FORWARD}},
+            {"pitch-backward",  {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
     return motion_to_motor_pins_map;
-
+}

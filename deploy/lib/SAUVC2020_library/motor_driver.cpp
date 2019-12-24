@@ -29,7 +29,7 @@ bool MotorDriver::run(int esc_input) {
     Serial.println(
             "Motor with pin: " + String(pin) + " is running with ESC input: " +
             String(get_safe_esc_input(esc_input)) + ".");
-    servo_object.writeMicroseconds(get_safe_esc_input(esc_input));
+    servo_driver.writeMicroseconds(get_safe_esc_input(esc_input));
     return true;
 }
 

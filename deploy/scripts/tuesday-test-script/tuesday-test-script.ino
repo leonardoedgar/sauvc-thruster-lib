@@ -1,11 +1,10 @@
-#include <motor_driver.h>
-#include <motor_controller.h>
-#include <ArduinoSTL.h>
-#include <Wire.h>
-#include <MS5837.h>
-
+# include <motor_driver.h>
+# include <motor_controller.h>
+# include <ArduinoSTL.h>
+# include <Wire.h>
+# include <MS5837.h>
+# include "depth_sensor_config.h"
 // Initialise Motor Controller
-std::vector<byte> motor_pins {3, 4, 5, 6, 7, 8, 9, 10}; 
 MotorController motor_controller;
 
 // Initialise variable to setup timer during robot operation
@@ -18,8 +17,7 @@ const byte e_stop_pin = 2;
 
 // Initialise depth sensor
 MS5837 depth_sensor;
-float initial_depth;
-float operating_depth = -1, depth_tolerance = 0.25;
+float surface_depth, current_depth;
 
 // Initialise the state of the robot
 volatile byte state = LOW;
@@ -29,7 +27,7 @@ void setup() {
   Serial.begin(9600);
 
   // Setup motor controller
-  motor_controller.setup(motor_pins);
+  motor_controller.setup();
 
   // Setup e-stop pin
    pinMode(e_stop_pin, INPUT);
@@ -53,20 +51,24 @@ void loop() {
     Serial.println("Robot state: stop");
     motor_controller.stop();
     start_time = millis();
+    surface_depth = get_current_depth();
   }
   else if (state == HIGH) {
     Serial.println("Robot state: run");
     time_elapsed = millis() - start_time;
-    initial_depth = get_current_depth();
     if (time_elapsed > operating_timeout) {
       motor_controller.stop();
     }
     else {
-      if (operating_depth - depth_tolerance < get_current_depth() - initial_depth < operating_depth + depth_tolerance) {
-        motor_controller.move("forward", 50);
+      current_depth = get_current_depth();
+      if (OPERATING_DEPTH - DEPTH_TOLERANCE > current_depth - surface_depth) {
+        motor_controller.move("submerge");
+      }
+      else if (OPERATING_DEPTH + DEPTH_TOLERANCE < current_depth - surface_depth){
+        motor_controller.move("surface");
       }
       else {
-        motor_controller.move("submerge", 50);
+        motor_controller.move("forward");
       }
     }
   }

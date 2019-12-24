@@ -1,11 +1,10 @@
-#include <motor_driver.h>
-#include <motor_controller.h>
-#include <ArduinoSTL.h>
-#include <Wire.h>
-#include <MS5837.h>
+# include <motor_driver.h>
+# include <motor_controller.h>
+# include <ArduinoSTL.h>
+# include <Wire.h>
+# include <MS5837.h>
 
 // Initialise Motor Controller
-std::vector<byte> motor_pins {3, 4, 5, 6, 7, 8, 9, 10}; 
 MotorController motor_controller;
 
 // Initialise e-stop pin
@@ -13,7 +12,7 @@ const byte e_stop_pin = 10;
 
 // Initialise depth sensor
 MS5837 depth_sensor;
-float operating_depth = -1, depth_tolerance = 0.25, current_depth = 0;
+float current_depth;
 
 // Initialise the state of the robot
 std::map <String, std::map<String, String>> state_map = {
@@ -26,7 +25,7 @@ void setup() {
   Serial.begin(9600);
 
   // Setup motor controller
-  motor_controller.setup(motor_pins);
+  motor_controller.setup();
 
   // Setup e-stop pin
 //   pinMode(e_stop_pin, INPUT_PULLUP);
@@ -47,7 +46,7 @@ void setup() {
 
 void loop() {
   // Code to test thrusters' functionality.
-  motor_controller.move("forward", 50);
+  motor_controller.move("forward");
   delay(1000);
   motor_controller.stop();
   delay(2000);
@@ -59,15 +58,6 @@ void loop() {
     // Code to test depth sensor's functionality.
 //
 //    current_depth = get_current_depth();
-//    if (operating_depth + depth_tolerance < current_depth) {
-//      Serial.println("Robot go up"); 
-//    }
-//    else if (operating_depth-depth_tolerance > current_depth) {
-//      Serial.println("Robot go down");
-//    }
-//    else {
-//      Serial.println("Robot stays vertically");
-//    }
 //    delay(500);
 }
 
