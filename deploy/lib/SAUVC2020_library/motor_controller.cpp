@@ -4,53 +4,49 @@
 # include <vector>
 # include <map>
 # include <Arduino.h>
+# include "./config/config.h"
 /***
  * The implementation of the function to setup the motor controller
- * @param motor_pins {std::vector<byte>} indicates motor pins to register
  * @return {bool} indicates whether the setup was successful or not
  */
-bool MotorController::setup(std::vector<byte> motor_pins) {
-    bool success_bool = register_motor(motor_pins);
+bool MotorController::setup() {
+    bool registration_success = register_motor(MOTOR_PINS_TO_REGISTER);
     store_motion_to_motor_mapping();
     delay(1000);
-    std::string success_str {"false"};
-    if (success_bool) {
-        success_str = "true";
+    std::string registration_status {"false"};
+    if (registration_success) {
+        registration_status = "true";
     }
     else {
-        success_str = "false";
+        registration_status = "false";
     }
-    Serial.println("Motor registration's success : " + String(success_str.c_str()));
-    return success_bool;
+    Serial.println("Motor registration's success : " + String(registration_status.c_str()));
+    return registration_success;
 }
 
 /**
  * The implementation of the function to register motors to run
- * @param motor_pins {std::vector<byte>} represents motor's pins to register
+ * @param motor_pins_to_register {std::vector<byte>} represents motor's pins to register
  * @return {bool} indicates whether the registration was successful or not
  */
-bool MotorController::register_motor(std::vector<byte> motor_pins) {
-    for (byte motor_pin: motor_pins) {
-        motors.insert(std::pair<byte, MotorDriver>(motor_pin, MotorDriver(motor_pin)));
+bool MotorController::register_motor(std::vector<byte> motor_pins_to_register) {
+    for (byte motor_pin: motor_pins_to_register) {
+        motor_pin_to_instance_mapping.insert(std::pair<byte, MotorDriver>(motor_pin, MotorDriver(motor_pin)));
     }
-    return motors.size() == motor_pins.size();
+    return motor_pin_to_instance_mapping.size() == motor_pins_to_register.size();
 }
 
 /**
- * The implementation of the function to drive the robot forward
+ * The implementation of the function to move the robot
  * @param motion {string} indicates the motion for the robot to produce
- * @param speed_percentage {double} represents the speed percentage for the robot to move
- * @return {bool} indicates whether the execution of moving forward was successful or not
+ * @return {bool} indicates whether the execution of movement was successful or not
  */
-bool MotorController::move(std::string motion, double speed_percentage) {
-    if (motor_pins_for_motion.find(motion) != motor_pins_for_motion.end()) {
+bool MotorController::move(std::string motion) {
+    if (motion_to_motor_mapping.find(motion) != motion_to_motor_mapping.end()) {
         Serial.println("====================================================");
-        String string_to_print = "Robot executing motion: [" + String(motion.c_str()) + "].";
-        Serial.println(string_to_print);
-        for (const auto &[direction, motor_pins_to_run]: motor_pins_for_motion[motion]) {
-            for (byte motor_pin_to_run: motor_pins_to_run) {
-                motors[motor_pin_to_run].run(speed_percentage, direction);
-            }
+        Serial.println("Robot executing motion: [" + String(motion.c_str()) + "].");
+        for (const auto &[motor_pin_to_run, esc_input]: motion_to_motor_mapping[motion]) {
+            motor_pin_to_instance_mapping[motor_pin_to_run].run(esc_input);
         }
         Serial.println("====================================================");
     }
@@ -67,8 +63,8 @@ bool MotorController::move(std::string motion, double speed_percentage) {
 bool MotorController::stop() {
     Serial.println("====================================================");
     Serial.println("Robot executing motion: [stop].");
-    for (const auto &[pin, motor_driver]: motors) {
-        motors[pin].stop();
+    for (const auto &[pin, motor_driver]: motor_pin_to_instance_mapping) {
+        motor_pin_to_instance_mapping[pin].stop();
     }
     Serial.println("====================================================");
     return true;
@@ -79,79 +75,31 @@ bool MotorController::stop() {
  * @return {bool} indicates whether the storing was successful or not
  */
 bool MotorController::store_motion_to_motor_mapping() {
-    std::map<std::string, std::map<std::string, std::vector<byte>>> motion_to_motor_config = load_motion_config();
-    for ( const auto &[motion, motor_config]: motion_to_motor_config ) {
-        motor_pins_for_motion.insert(std::pair<std::string, std::map<std::string, std::vector<byte>>>(motion, motor_config));
+    std::map<std::string, std::map<byte, int>> motion_to_motor_config = load_motion_to_motor_config();
+    for ( const auto &[motion, motor_with_esc_input]: motion_to_motor_config ) {
+        motion_to_motor_mapping.insert(std::pair<std::string, std::map<byte, int>>(motion, motor_with_esc_input));
     }
-    return motor_pins_for_motion.size() == motion_to_motor_config.size();
+    return motion_to_motor_mapping.size() == motion_to_motor_config.size();
 }
 
 /**
  * The implementation of the function to load pre-defined motors' motion.
  * @return {map} indicates the mapping of motion to motors
  */
-std::map<std::string, std::map<std::string, std::vector<byte>>> MotorController::load_motion_config() {
-    byte motor_id_1_pin {3}, motor_id_2_pin {4}, motor_id_3_pin {5}, motor_id_4_pin {6}, motor_id_5_pin {7},
-            motor_id_6_pin {8}, motor_id_7_pin {9}, motor_id_8_pin {10};
-    std::map<std::string, std::map<std::string, std::vector<byte>>> motion_to_motor_pins_map {
-            {"forward", {
-                    {"forward", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"backward", {
-                    {"reverse", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"submerge", {
-                    {"forward", {motor_id_6_pin, motor_id_7_pin}},
-                    {"reverse", {motor_id_5_pin, motor_id_8_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            }},
-            {"surface", {
-                    {"forward", {motor_id_5_pin, motor_id_8_pin}},
-                    {"reverse", {motor_id_6_pin, motor_id_7_pin}},
-                    {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            }},
-            {"rotate-left", {
-                    {"forward", {motor_id_1_pin, motor_id_3_pin}},
-                    {"reverse", {motor_id_2_pin, motor_id_4_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }},
-            {"rotate-right", {
-                    {"forward", {motor_id_2_pin, motor_id_4_pin}},
-                    {"reverse", {motor_id_1_pin, motor_id_3_pin}},
-                    {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            }}
-            // {"translate-left", {
-            //         {"forward", {motor_id_1_pin, motor_id_4_pin}},
-            //         {"reverse", {motor_id_2_pin, motor_id_3_pin}},
-            //         {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            // }},
-            // {"translate-right", {
-            //         {"forward", {motor_id_2_pin, motor_id_3_pin}},
-            //         {"reverse", {motor_id_1_pin, motor_id_4_pin}},
-            //         {"stop", {motor_id_5_pin, motor_id_6_pin, motor_id_7_pin, motor_id_8_pin}}
-            // }},
-            // {"roll-right", {
-            //         {"forward", {motor_id_5_pin, motor_id_6_pin}},
-            //         {"reverse", {motor_id_7_pin, motor_id_8_pin}},
-            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            // }},
-            // {"roll-left", {
-            //         {"forward", {motor_id_7_pin, motor_id_8_pin}},
-            //         {"reverse", {motor_id_5_pin, motor_id_6_pin}},
-            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            // }},
-            // {"pitch-backward", {
-            //         {"forward", {motor_id_5_pin, motor_id_7_pin}},
-            //         {"reverse", {motor_id_6_pin, motor_id_8_pin}},
-            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            // }},
-            // {"pitch-forward", {
-            //         {"forward", {motor_id_6_pin, motor_id_8_pin}},
-            //         {"reverse", {motor_id_5_pin, motor_id_7_pin}},
-            //         {"stop", {motor_id_1_pin, motor_id_2_pin, motor_id_3_pin, motor_id_4_pin}}
-            // }}
+std::map<std::string, std::map<byte, int>> MotorController::load_motion_to_motor_config() {
+    std::map<std::string, std::map<byte, int>> motion_to_motor_pins_map {
+            {"forward", {MOTOR_AND_ESC_INPUT_FOR_FORWARD}},
+            {"backward", {MOTOR_AND_ESC_INPUT_FOR_BACKWARD}},
+            {"submerge", {MOTOR_AND_ESC_INPUT_FOR_SUBMERGE}},
+            {"surface", {MOTOR_AND_ESC_INPUT_FOR_SURFACE}},
+            {"rotate-left", {MOTOR_AND_ESC_INPUT_FOR_ROTATE_LEFT}},
+            {"rotate-right", {MOTOR_AND_ESC_INPUT_FOR_ROTATE_RIGHT}},
+            {"translate-left", {MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_LEFT}},
+            {"translate-right", {MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_RIGHT}},
+            {"roll-left", {MOTOR_AND_ESC_INPUT_FOR_ROLL_LEFT}},
+            {"roll-right", {MOTOR_AND_ESC_INPUT_FOR_ROLL_RIGHT}},
+            {"pitch-forward", {MOTOR_AND_ESC_INPUT_FOR_PITCH_FORWARD}},
+            {"pitch-backward", {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
     return motion_to_motor_pins_map;
-}
+
