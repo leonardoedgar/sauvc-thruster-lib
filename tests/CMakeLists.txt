@@ -3,7 +3,7 @@ set(SOURCES ${SOURCES})
 
 # Add dependencies needed from source dir to be tested  by unit tests
 add_library(${CMAKE_PROJECT_NAME}_test_lib STATIC ../src/motor_controller.cpp ../src/motor_controller.h
-        ../src/motor_driver.cpp ../src/motor_driver.h)
+        ../src/motor_driver.cpp ../src/motor_driver.h ../config/config.h)
 
 target_include_directories(${CMAKE_PROJECT_NAME}_test_lib PUBLIC ${SOURCES})
 include_directories(../lib/googletest)

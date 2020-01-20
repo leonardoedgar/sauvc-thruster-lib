@@ -1,25 +1,38 @@
-#ifndef SAUVC2020_MOTOR_DRIVER_H
-#define SAUVC2020_MOTOR_DRIVER_H
-
+# ifndef SAUVC2020_MOTOR_DRIVER_H
+# define SAUVC2020_MOTOR_DRIVER_H
+# include <string>
 class MotorDriver {
 private:
-    // An integer that represents the id of the motor
-    int id;
+    int pin;
+    /**
+    * A function to get a safe esc input value
+    * @param esc_input {int} indicates the desired esc input
+    * @return {int} represents the safe esc input
+    */
+    int get_safe_esc_input(int esc_input);
+
 public:
     MotorDriver();
-    MotorDriver(int id);
-    /**
-     * A function to retrieve the id of the motor.
-     * @return {int} the id of the motor
-     */
-    int retrieve_motor_id();
+    explicit MotorDriver(int pin);
 
     /**
-     * A function to run the motor at a certain speed.
-     * @param speed {double} that represents the speed to run the motor
-     * @return {bool} that indicates whether the motor is run successfully or not
+     * A function to get the pin of the motor.
+     * @return {int} the pin of the motor
      */
-    bool run(double speed);
+    int get_motor_pin();
+
+    /**
+     * The function to run a motor at a certain ESC input.
+     * @param esc_input {int} represents the desired ESC input
+     * @return {bool} indicates whether the motor runs successfully or not
+     */
+    bool run(int esc_input);
+
+    /**
+     * A function to stop the motor.
+     * @return {bool} indicates whether the stopping was successful or not
+     */
+    bool stop();
 };
 
 #endif //SAUVC2020_MOTOR_DRIVER_H

@@ -1,39 +1,53 @@
-#ifndef SAUVC2020_MOTOR_CONTROLLER_H
-#define SAUVC2020_MOTOR_CONTROLLER_H
+# ifndef SAUVC2020_MOTOR_CONTROLLER_H
+# define SAUVC2020_MOTOR_CONTROLLER_H
 # include "motor_driver.h"
 # include <vector>
 # include <map>
+# include <string>
 
 class MotorController {
 private:
-    // A hash table to contain all motors objects used as the value with its respective id as the key.
-    std::map <int, MotorDriver> motors;
-
-    // A hash table to map a motion type to motors to run
-    std::map <std::string, std::vector<int>> motor_ids_for_motion;
+    std::map <int, MotorDriver> motor_pin_to_instance_mapping;
+    std::map <std::string, std::map<int, int>> motion_to_motor_mapping;
 
     /**
-     * A function to register motors needed with its respective id.
-     * @param no_of_motors {int} represents the number of motors to be registered
+     * A function to register motors needed with its respective pins.
+     * @param motor_pins_to_register {std::vector<int>} represents motors' pins to register
      * @return {bool} indicates whether the registration was successful or not
      */
-    bool register_motor(int no_of_motors);
+    bool register_motor(std::vector<int> motor_pins_to_register);
 
     /**
      * A function to store the mapping of a motion type to motor to be run.
      * @return {bool} indicates whether the storing was successful or not
      */
     bool store_motion_to_motor_mapping();
-public:
-    MotorController(int no_of_motors);
 
     /**
-     * A function to drive the robot forward.
+    * A function to load pre-defined motors' motion.
+    * @return {map} indicates the mapping of motion to motors
+    */
+    std::map<std::string, std::map<int, int>> load_motion_to_motor_config();
+
+public:
+    /**
+    * A function to setup the motor controller
+    * @return {bool} indicates whether the setup was successful or not
+    */
+    bool setup();
+
+    /**
+     * A function to move the robot.
      * @param motion {string} indicates the motion to for the robot to produce
-     * @param speed {double} represents the speed for the robot to move forward
-     * @return {bool} indicates whether the execution of moving forward was successful or not
+     * @return {bool} indicates whether the execution of movement was successful or not
      */
-    bool move(std::string motion, double speed);
+    bool move(std::string motion);
+
+    /**
+     * A function to stop the robot from moving.
+     * @return {bool} indicates whether the stopping was successful or not.
+     */
+    bool stop();
 };
 
 #endif //SAUVC2020_MOTOR_CONTROLLER_H

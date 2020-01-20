@@ -1,27 +1,53 @@
-#include "motor_driver.h"
-#include <iostream>
-MotorDriver::MotorDriver(int id): id{id}{
+# include "motor_driver.h"
+# include <iostream>
+# include "../config/config.h"
+MotorDriver::MotorDriver(int pin): pin{pin}{
 
 }
 
 MotorDriver::MotorDriver() {
-    std::cout << "Motor driver without args is called\n";
-    MotorDriver(-1);
+    std::cout << "Motor driver without args is called\n.";
 }
 
 /**
- * The implementation of a function to retrieve the id of a motor.
- * @return {int} represents the id of the motor
+ * The implementation of the function to get the pin of a motor.
+ * @return {int} represents the pin of the motor
  */
-int MotorDriver::retrieve_motor_id() {
-    return id;
+int MotorDriver::get_motor_pin() {
+    return pin;
 }
 
 /**
- * The implementation of the function to run a motor at a certain speed.
- * @param speed {double} represents the speed to run the motor
- * @return {bool} indicates whether the motor is run successfully or not
+ * The implementation of the function to run a motor at a certain ESC input value.
+ * @param esc_input {int} represents the desired ESC input value
+ * @return {bool} indicates whether the motor runs successfully or not
  */
-bool MotorDriver::run(double speed) {
-    std::cout << "Motor with id: " << id << " is running at speed: " << std::fixed << speed << "\n";
+bool MotorDriver::run(int esc_input) {
+    std::cout << std::fixed;
+    std::cout << "Motor with pin: " << pin << " is running with ESC input: " << get_safe_esc_input(esc_input) << ".\n";
+    return true;
+}
+
+/**
+ * The implementation of the function to stop the motor.
+ * @return {bool} indicates whether the stopping was successful or not
+ */
+bool MotorDriver::stop() {
+    run(ESC_INPUT_FOR_STOP_SIGNAL);
+    return true;
+}
+
+/**
+ * The implementation of the function to get a safe esc input value
+ * @param esc_input_value {int} indicates the desired esc input
+ * @return {int} represents the safe esc input
+ */
+int MotorDriver::get_safe_esc_input(int esc_input) {
+    if (esc_input > MAX_ESC_INPUT) {
+        return MAX_ESC_INPUT;
+    }
+    else if (esc_input < MIN_ESC_INPUT){
+        return MIN_ESC_INPUT;
+    }
+    return esc_input;
 }
