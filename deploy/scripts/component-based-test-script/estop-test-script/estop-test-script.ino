@@ -4,18 +4,14 @@
 const byte e_stop_pin = 2;
 
 // Initialise the state of the robot
-std::map <String, std::map<String, String>> state_map = {
-  {"stop", {{"next", "run"}}},
-  {"run", {{"next", "stop"}}}
-};
-String state = "stop";
+volatile byte state = LOW;
 
 /**
  * A function to transit state when interrupt is triggered..
  * return {bool} that indicates whether the interrupt callback is successful or not.
  */
 bool transit_state () {
-  state = state_map[state]["next"];
+  state = !state;
   return true;
 }
 
@@ -30,6 +26,11 @@ void setup() {
 
 void loop() {
     // Code to test e-stop.
-    Serial.println("State: [" + state + "]");
+    if (state == LOW) {
+      Serial.println("State: stop");
+    }
+    else {
+      Serial.println("State: run");
+    }
     delay(500);
 }

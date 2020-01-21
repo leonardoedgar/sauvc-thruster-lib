@@ -17,8 +17,8 @@
 /**
  * ESC Input Value Safety Limit
  */
-# define MAX_ESC_INPUT int(1700)
-# define MIN_ESC_INPUT int(1300)
+# define MAX_ESC_INPUT int(1900)
+# define MIN_ESC_INPUT int(1100)
 
 /**
  * ESC Input Value for Stop Signal
