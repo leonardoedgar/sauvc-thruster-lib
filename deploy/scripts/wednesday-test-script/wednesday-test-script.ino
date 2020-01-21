@@ -45,7 +45,7 @@ void setup() {
   motor_controller.setup();
 
   // Setup e-stop pin
-  pinMode(ESTOP_PIN, INPUT_PULLUP);
+  pinMode(ESTOP_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(ESTOP_PIN), callback_estop_pressed, CHANGE);
 
    // Setup depth sensor

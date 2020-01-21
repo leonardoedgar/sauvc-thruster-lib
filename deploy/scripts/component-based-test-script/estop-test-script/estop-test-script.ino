@@ -1,5 +1,3 @@
-# include <motor_driver.h>
-# include <motor_controller.h>
 // Initialise e-stop pin
 const byte e_stop_pin = 2;
 
@@ -20,7 +18,7 @@ void setup() {
   Serial.begin(9600);
 
   // Setup e-stop pin
-  pinMode(e_stop_pin, INPUT_PULLUP);
+  pinMode(e_stop_pin, INPUT);
   attachInterrupt(digitalPinToInterrupt(e_stop_pin), transit_state, CHANGE);
 }
 
@@ -29,7 +27,7 @@ void loop() {
     if (state == LOW) {
       Serial.println("State: stop");
     }
-    else {
+    else if (state == HIGH){
       Serial.println("State: run");
     }
     delay(500);
