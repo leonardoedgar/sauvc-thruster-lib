@@ -7,7 +7,7 @@
 
 // Define depth sensor config
 # define OPERATING_DEPTH QUALIFICATION_OPERATING_DEPTH
-# define DEPTH_TOLERANCE float(0.25)
+# define DEPTH_TOLERANCE float(0.1)
 # define DEPTH_SENSOR_MODEL MS5837::MS5837_02BA
 # define FLUID_DENSITY 997
 

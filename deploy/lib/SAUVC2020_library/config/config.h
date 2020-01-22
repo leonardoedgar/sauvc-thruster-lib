@@ -28,10 +28,10 @@
 /**
  * ESC Input Value of motors for each motion.
  */
-# define MOTOR_AND_ESC_INPUT_FOR_FORWARD {MOTOR_NO_1_PIN, 1600}, \
-                                         {MOTOR_NO_2_PIN, 1600}, \
-                                         {MOTOR_NO_3_PIN, 1600}, \
-                                         {MOTOR_NO_4_PIN, 1600}, \
+# define MOTOR_AND_ESC_INPUT_FOR_FORWARD {MOTOR_NO_1_PIN, 1700}, \
+                                         {MOTOR_NO_2_PIN, 1700}, \
+                                         {MOTOR_NO_3_PIN, 1700}, \
+                                         {MOTOR_NO_4_PIN, 1700}, \
                                          {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                          {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                          {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
@@ -44,18 +44,18 @@
                                           {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                           {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                           {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_SUBMERGE {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
+# define MOTOR_AND_ESC_INPUT_FOR_SUBMERGE {MOTOR_NO_1_PIN, 1700}, \
+                                          {MOTOR_NO_2_PIN, 1700}, \
+                                          {MOTOR_NO_3_PIN, 1700}, \
+                                          {MOTOR_NO_4_PIN, 1700}, \
                                           {MOTOR_NO_5_PIN, 1400}, \
                                           {MOTOR_NO_6_PIN, 1600}, \
                                           {MOTOR_NO_7_PIN, 1600}, \
                                           {MOTOR_NO_8_PIN, 1400}
-# define MOTOR_AND_ESC_INPUT_FOR_SURFACE {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
+# define MOTOR_AND_ESC_INPUT_FOR_SURFACE {MOTOR_NO_1_PIN, 1700}, \
+                                         {MOTOR_NO_2_PIN, 1700}, \
+                                         {MOTOR_NO_3_PIN, 1700}, \
+                                         {MOTOR_NO_4_PIN, 1700}, \
                                          {MOTOR_NO_5_PIN, 1600}, \
                                          {MOTOR_NO_6_PIN, 1400}, \
                                          {MOTOR_NO_7_PIN, 1400}, \

@@ -24,7 +24,8 @@ unsigned long start_time;
  * return {bool} that indicates whether the callback function successfully executed.
  */
 bool callback_estop_pressed() {
-  e_stop_state != e_stop_state;
+  e_stop_state = !e_stop_state;
+  return true;
 }
 
 /**
@@ -49,16 +50,16 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ESTOP_PIN), callback_estop_pressed, CHANGE);
 
    // Setup depth sensor
-//   Wire.begin();
-//   while (!depth_sensor.init()) {
-//    Serial.println("Init failed!");
-//    Serial.println("Are SDA/SCL connected correctly?");
-//    Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
-//    Serial.println("\n\n\n");
-//    delay(5000);
-//  }
-//  depth_sensor.setModel(DEPTH_SENSOR_MODEL);
-//  depth_sensor.setFluidDensity(FLUID_DENSITY); // kg/m^3 (freshwater, 1029 for seawater)
+   Wire.begin();
+   while (!depth_sensor.init()) {
+    Serial.println("Init failed!");
+    Serial.println("Are SDA/SCL connected correctly?");
+    Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
+    Serial.println("\n\n\n");
+    delay(5000);
+  }
+  depth_sensor.setModel(DEPTH_SENSOR_MODEL);
+  depth_sensor.setFluidDensity(FLUID_DENSITY); // kg/m^3 (freshwater, 1029 for seawater)
 }
 
 void loop() {
@@ -81,7 +82,16 @@ void loop() {
       }
       else {
         Serial.println("state: [move]");
-        motor_controller.move("forward");
+        current_depth = get_current_depth();
+        if(current_depth < OPERATING_DEPTH - DEPTH_TOLERANCE) {
+          motor_controller.move("submerge");
+        }
+        else if (current_depth > OPERATING_DEPTH + DEPTH_TOLERANCE){
+          motor_controller.move("surface");
+        }
+        else {
+          motor_controller.move("forward");
+        }
       }
     }
     else {
