@@ -1,4 +1,4 @@
-# SAUVC2020
+# sauvc2020-motors-lib
 
 To generate Makefiles from project files
 
