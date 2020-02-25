@@ -1,4 +1,4 @@
-project(SAUVC2020)
+project(sauvc2020-motors-lib)
 set(SOURCES ${SOURCES})
 
 # Add dependencies needed from source dir to be tested  by unit tests
