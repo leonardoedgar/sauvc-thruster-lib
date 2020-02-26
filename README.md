@@ -1,4 +1,4 @@
-# sauvc2020-motors-lib
+# sauvc2020-motor
 
 To generate Makefiles from project files
 
@@ -18,5 +18,5 @@ To run unit tests
 
 ```sh
 cd build/tests
-./sauvc2020-motors-lib_test
+./sauvc2020-motor_test
 ```

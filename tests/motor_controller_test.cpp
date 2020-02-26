@@ -52,17 +52,54 @@ TEST_F(MotorControllerTest, move_forward_with_desired_motors_and_speed) {
         if (esc_input > ESC_INPUT_FOR_STOP_SIGNAL) {
             desired_output += "Motor with pin: " + std::to_string(motor_pin_to_run) + " is running with ESC input: " +
                     std::to_string(esc_input) + ".\n";
-            }
+        }
         else if (esc_input == ESC_INPUT_FOR_STOP_SIGNAL) {
             desired_output += "Motor with pin: " + std::to_string(motor_pin_to_run) + " is running with ESC input: " +
                     std::to_string(ESC_INPUT_FOR_STOP_SIGNAL) + ".\n";;
-            }
+        }
     }
     testing::internal::CaptureStdout();
     sample_controller.move("forward");
     std::string actual_output = testing::internal::GetCapturedStdout();
     ASSERT_EQ(actual_output, desired_output);
 }
+
+/**
+ * Test that MotorController is able to drive correct motors with a customisable speed
+ */
+ TEST_F(MotorControllerTest, move_with_custom_speed) {
+     std::map<int, int> motor_id_to_speed_mapping = {{1, 1500},
+                                                     {2, 1600},
+                                                     {3, 1700},
+                                                     {4, 1800},
+                                                     {5, 1850},
+                                                     {6, 1750},
+                                                     {7, 1650},
+                                                     {8, 1600}};
+     std::string desired_output = "";
+     for (const auto &[motor_id_to_run, esc_input]: motor_id_to_speed_mapping) {
+         if (esc_input > MAX_ESC_INPUT) {
+             desired_output += "Motor with pin: " + std::to_string(sample_controller.motor_id_to_pin_mapping[motor_id_to_run]) + " is running with ESC input: " +
+                               std::to_string(MAX_ESC_INPUT) + ".\n";
+         }
+         else if (esc_input < MIN_ESC_INPUT) {
+             desired_output += "Motor with pin: " + std::to_string(sample_controller.motor_id_to_pin_mapping[motor_id_to_run]) + " is running with ESC input: " +
+                               std::to_string(MIN_ESC_INPUT) + ".\n";
+         }
+         else if (esc_input == ESC_INPUT_FOR_STOP_SIGNAL) {
+             desired_output += "Motor with pin: " + std::to_string(sample_controller.motor_id_to_pin_mapping[motor_id_to_run]) + " is running with ESC input: " +
+                     std::to_string(ESC_INPUT_FOR_STOP_SIGNAL) + ".\n";
+         }
+         else {
+             desired_output += "Motor with pin: " + std::to_string(sample_controller.motor_id_to_pin_mapping[motor_id_to_run]) + " is running with ESC input: " +
+                               std::to_string(esc_input) + ".\n";
+         }
+     }
+     testing::internal::CaptureStdout();
+     sample_controller.move(motor_id_to_speed_mapping);
+     std::string actual_output = testing::internal::GetCapturedStdout();
+     ASSERT_EQ(actual_output, desired_output);
+ }
 
 /**
  * Test that MotorController is able to load all predefined motion configuration.

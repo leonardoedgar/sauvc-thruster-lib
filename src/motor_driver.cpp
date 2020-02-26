@@ -14,7 +14,7 @@ MotorDriver::MotorDriver() {
  * @return {int} represents the pin of the motor
  */
 int MotorDriver::get_motor_pin() {
-    return pin;
+    return this->pin;
 }
 
 /**
@@ -24,7 +24,7 @@ int MotorDriver::get_motor_pin() {
  */
 bool MotorDriver::run(int esc_input) {
     std::cout << std::fixed;
-    std::cout << "Motor with pin: " << pin << " is running with ESC input: " << get_safe_esc_input(esc_input) << ".\n";
+    std::cout << "Motor with pin: " << this->pin << " is running with ESC input: " << get_safe_esc_input(esc_input) << ".\n";
     return true;
 }
 
@@ -33,7 +33,7 @@ bool MotorDriver::run(int esc_input) {
  * @return {bool} indicates whether the stopping was successful or not
  */
 bool MotorDriver::stop() {
-    run(ESC_INPUT_FOR_STOP_SIGNAL);
+    this->run(ESC_INPUT_FOR_STOP_SIGNAL);
     return true;
 }
 

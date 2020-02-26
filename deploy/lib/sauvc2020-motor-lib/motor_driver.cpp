@@ -4,8 +4,8 @@
 # include <Servo.h>
 # include "config/config.h"
 MotorDriver::MotorDriver(byte pin): pin{pin}{
-     servo_driver.attach(pin);
-     servo_driver.writeMicroseconds(1500);
+     this->servo_driver.attach(this->pin);
+     this->servo_driver.writeMicroseconds(1500);
 }
 
 MotorDriver::MotorDriver() {
@@ -17,7 +17,7 @@ MotorDriver::MotorDriver() {
  * @return {byte} represents the pin of the motor
  */
 byte MotorDriver::get_motor_pin() {
-    return pin;
+    return this->pin;
 }
 
 /**
@@ -27,9 +27,9 @@ byte MotorDriver::get_motor_pin() {
  */
 bool MotorDriver::run(int esc_input) {
     Serial.println(
-            "Motor with pin: " + String(pin) + " is running with ESC input: " +
+            "Motor with pin: " + String(this->pin) + " is running with ESC input: " +
             String(get_safe_esc_input(esc_input)) + ".");
-    servo_driver.writeMicroseconds(get_safe_esc_input(esc_input));
+    this->servo_driver.writeMicroseconds(get_safe_esc_input(esc_input));
     return true;
 }
 
@@ -38,7 +38,7 @@ bool MotorDriver::run(int esc_input) {
  * @return {bool} indicates whether the stopping was successful or not
  */
 bool MotorDriver::stop() {
-    run(ESC_INPUT_FOR_STOP_SIGNAL);
+    this->run(ESC_INPUT_FOR_STOP_SIGNAL);
     return true;
 }
 

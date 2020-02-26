@@ -13,6 +13,14 @@
 # define MOTOR_NO_8_PIN int(8)
 # define MOTOR_PINS_TO_REGISTER {MOTOR_NO_1_PIN, MOTOR_NO_2_PIN, MOTOR_NO_3_PIN, MOTOR_NO_4_PIN, \
                                  MOTOR_NO_5_PIN, MOTOR_NO_6_PIN, MOTOR_NO_7_PIN, MOTOR_NO_8_PIN}
+# define MOTOR_ID_TO_PIN_MAPPING {1, MOTOR_NO_1_PIN}, \
+                                 {2, MOTOR_NO_2_PIN}, \
+                                 {3, MOTOR_NO_3_PIN}, \
+                                 {4, MOTOR_NO_4_PIN}, \
+                                 {5, MOTOR_NO_5_PIN}, \
+                                 {6, MOTOR_NO_6_PIN}, \
+                                 {7, MOTOR_NO_7_PIN}, \
+                                 {8, MOTOR_NO_8_PIN}
 
 /**
  * ESC Input Value Safety Limit

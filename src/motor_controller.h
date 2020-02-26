@@ -9,6 +9,7 @@ class MotorController {
 private:
     std::map <int, MotorDriver> motor_pin_to_instance_mapping;
     std::map <std::string, std::map<int, int>> motion_to_motor_mapping;
+    std::map <int, int> motor_id_to_pin_mapping;
 
     /**
      * A function to register motors needed with its respective pins.
@@ -22,6 +23,12 @@ private:
      * @return {bool} indicates whether the storing was successful or not
      */
     bool store_motion_to_motor_mapping();
+
+    /**
+     * A function to store the mapping of motor id to motor pin.
+     * @return {bool} indicates whether the storing was successful or not
+     */
+    bool store_motor_id_to_pin_mapping();
 
     /**
     * A function to load pre-defined motors' motion.
@@ -44,10 +51,18 @@ public:
     bool move(std::string motion);
 
     /**
+     * A function to move the robot.
+     * @param map_motor_id_to_speed {std::map<int, int>} indicates motor id and the speed to drive.
+     * @return {bool} indicates whether the execution of movement was successful or not
+     */
+     bool move(std::map<int, int> map_motor_id_to_speed);
+
+    /**
      * A function to stop the robot from moving.
      * @return {bool} indicates whether the stopping was successful or not.
      */
     bool stop();
+
 };
 
 #endif //SAUVC2020_MOTOR_CONTROLLER_H

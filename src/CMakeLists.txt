@@ -1,4 +1,4 @@
-project(sauvc2020-motors-lib)
+project(sauvc2020-motor)
 set(SOURCES ${SOURCES})
 
 # Add dependencies needed to run the main executable file
