@@ -35,100 +35,100 @@
 /**
  * ESC Input Value of motors for each motion.
  */
-# define MOTOR_AND_ESC_INPUT_FOR_FORWARD {MOTOR_NO_1_PIN, 1700}, \
-                                         {MOTOR_NO_2_PIN, 1700}, \
-                                         {MOTOR_NO_3_PIN, 1700}, \
-                                         {MOTOR_NO_4_PIN, 1700}, \
-                                         {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                         {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_BACKWARD {MOTOR_NO_1_PIN, 1400}, \
-                                          {MOTOR_NO_2_PIN, 1400}, \
-                                          {MOTOR_NO_3_PIN, 1400}, \
-                                          {MOTOR_NO_4_PIN, 1400}, \
-                                          {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                          {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_SUBMERGE {MOTOR_NO_1_PIN, 1700}, \
-                                          {MOTOR_NO_2_PIN, 1700}, \
-                                          {MOTOR_NO_3_PIN, 1700}, \
-                                          {MOTOR_NO_4_PIN, 1700}, \
-                                          {MOTOR_NO_5_PIN, 1400}, \
-                                          {MOTOR_NO_6_PIN, 1600}, \
-                                          {MOTOR_NO_7_PIN, 1600}, \
-                                          {MOTOR_NO_8_PIN, 1400}
-# define MOTOR_AND_ESC_INPUT_FOR_SURFACE {MOTOR_NO_1_PIN, 1700}, \
-                                         {MOTOR_NO_2_PIN, 1700}, \
-                                         {MOTOR_NO_3_PIN, 1700}, \
-                                         {MOTOR_NO_4_PIN, 1700}, \
-                                         {MOTOR_NO_5_PIN, 1600}, \
-                                         {MOTOR_NO_6_PIN, 1400}, \
-                                         {MOTOR_NO_7_PIN, 1400}, \
-                                         {MOTOR_NO_8_PIN, 1600}
-# define MOTOR_AND_ESC_INPUT_FOR_ROTATE_LEFT {MOTOR_NO_1_PIN, 1600}, \
-                                             {MOTOR_NO_2_PIN, 1400}, \
-                                             {MOTOR_NO_3_PIN, 1600}, \
-                                             {MOTOR_NO_4_PIN, 1400}, \
-                                             {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                             {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                             {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                             {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_ROTATE_RIGHT {MOTOR_NO_1_PIN, 1400}, \
-                                              {MOTOR_NO_2_PIN, 1600}, \
-                                              {MOTOR_NO_3_PIN, 1400}, \
-                                              {MOTOR_NO_4_PIN, 1600}, \
-                                              {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_LEFT {MOTOR_NO_1_PIN, 1600}, \
-                                                {MOTOR_NO_2_PIN, 1400}, \
-                                                {MOTOR_NO_3_PIN, 1400}, \
-                                                {MOTOR_NO_4_PIN, 1600}, \
-                                                {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_RIGHT {MOTOR_NO_1_PIN, 1400}, \
-                                                 {MOTOR_NO_2_PIN, 1600}, \
-                                                 {MOTOR_NO_3_PIN, 1600}, \
-                                                 {MOTOR_NO_4_PIN, 1400}, \
-                                                 {MOTOR_NO_5_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                 {MOTOR_NO_6_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                 {MOTOR_NO_7_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                 {MOTOR_NO_8_PIN, ESC_INPUT_FOR_STOP_SIGNAL}
-# define MOTOR_AND_ESC_INPUT_FOR_ROLL_LEFT {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                           {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                           {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                           {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                           {MOTOR_NO_5_PIN, 1400}, \
-                                           {MOTOR_NO_6_PIN, 1400}, \
-                                           {MOTOR_NO_7_PIN, 1600}, \
-                                           {MOTOR_NO_8_PIN, 1600}
-# define MOTOR_AND_ESC_INPUT_FOR_ROLL_RIGHT {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                            {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                            {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                            {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                            {MOTOR_NO_5_PIN, 1600}, \
-                                            {MOTOR_NO_6_PIN, 1600}, \
-                                            {MOTOR_NO_7_PIN, 1400}, \
-                                            {MOTOR_NO_8_PIN, 1400}
-# define MOTOR_AND_ESC_INPUT_FOR_PITCH_FORWARD {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                               {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                               {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                               {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                               {MOTOR_NO_5_PIN, 1400}, \
-                                               {MOTOR_NO_6_PIN, 1600}, \
-                                               {MOTOR_NO_7_PIN, 1400}, \
-                                               {MOTOR_NO_8_PIN, 1600}
-# define MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD {MOTOR_NO_1_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_2_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_3_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_4_PIN, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                                {MOTOR_NO_5_PIN, 1600}, \
-                                                {MOTOR_NO_6_PIN, 1400}, \
-                                                {MOTOR_NO_7_PIN, 1600}, \
-                                                {MOTOR_NO_8_PIN, 1400}
+# define MOTOR_AND_ESC_INPUT_FOR_FORWARD {1, 1700}, \
+                                         {2, 1700}, \
+                                         {3, 1700}, \
+                                         {4, 1700}, \
+                                         {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                         {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                         {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                         {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_BACKWARD {1, 1400}, \
+                                          {2, 1400}, \
+                                          {3, 1400}, \
+                                          {4, 1400}, \
+                                          {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                          {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                          {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                          {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_SUBMERGE {1, 1700}, \
+                                          {2, 1700}, \
+                                          {3, 1700}, \
+                                          {4, 1700}, \
+                                          {5, 1400}, \
+                                          {6, 1600}, \
+                                          {7, 1600}, \
+                                          {8, 1400}
+# define MOTOR_AND_ESC_INPUT_FOR_SURFACE {1, 1700}, \
+                                         {2, 1700}, \
+                                         {3, 1700}, \
+                                         {4, 1700}, \
+                                         {5, 1600}, \
+                                         {6, 1400}, \
+                                         {7, 1400}, \
+                                         {8, 1600}
+# define MOTOR_AND_ESC_INPUT_FOR_ROTATE_LEFT {1, 1600}, \
+                                             {2, 1400}, \
+                                             {3, 1600}, \
+                                             {4, 1400}, \
+                                             {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                             {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                             {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                             {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_ROTATE_RIGHT {1, 1400}, \
+                                              {2, 1600}, \
+                                              {3, 1400}, \
+                                              {4, 1600}, \
+                                              {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                              {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                              {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                              {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_LEFT {1, 1600}, \
+                                                {2, 1400}, \
+                                                {3, 1400}, \
+                                                {4, 1600}, \
+                                                {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_TRANSLATE_RIGHT {1, 1400}, \
+                                                 {2, 1600}, \
+                                                 {3, 1600}, \
+                                                 {4, 1400}, \
+                                                 {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                 {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                 {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                 {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define MOTOR_AND_ESC_INPUT_FOR_ROLL_LEFT {1, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                           {2, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                           {3, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                           {4, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                           {5, 1400}, \
+                                           {6, 1400}, \
+                                           {7, 1600}, \
+                                           {8, 1600}
+# define MOTOR_AND_ESC_INPUT_FOR_ROLL_RIGHT {1, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                            {2, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                            {3, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                            {4, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                            {5, 1600}, \
+                                            {6, 1600}, \
+                                            {7, 1400}, \
+                                            {8, 1400}
+# define MOTOR_AND_ESC_INPUT_FOR_PITCH_FORWARD {1, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                               {2, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                               {3, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                               {4, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                               {5, 1400}, \
+                                               {6, 1600}, \
+                                               {7, 1400}, \
+                                               {8, 1600}
+# define MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD {1, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {2, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {3, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {4, ESC_INPUT_FOR_STOP_SIGNAL}, \
+                                                {5, 1600}, \
+                                                {6, 1400}, \
+                                                {7, 1600}, \
+                                                {8, 1400}
 # endif

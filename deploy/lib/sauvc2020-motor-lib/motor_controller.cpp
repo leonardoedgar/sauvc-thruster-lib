@@ -5,6 +5,8 @@
 # include <map>
 # include <Arduino.h>
 # include "./config/config.h"
+# include <sauvc2020_msgs/MotionData.h>
+
 /***
  * The implementation of the function to setup the motor controller
  * @return {bool} indicates whether the setup was successful or not
@@ -44,12 +46,17 @@ bool MotorController::register_motor(std::vector<byte> motor_pins_to_register) {
  */
 bool MotorController::move(std::string motion) {
     if (this->motion_to_motor_mapping.find(motion) != this->motion_to_motor_mapping.end()) {
-        Serial.println("====================================================");
-        Serial.println("Robot executing motion: [" + String(motion.c_str()) + "].");
-        for (const auto &[motor_pin_to_run, esc_input]: this->motion_to_motor_mapping[motion]) {
-            this->motor_pin_to_instance_mapping[motor_pin_to_run].run(esc_input);
+        if (this->prev_motion != motion) {
+            Serial.println("====================================================");
+            Serial.println("Robot executing motion: [" + String(motion.c_str()) + "].");
+            for (const auto &[motor_id_to_run, esc_input]: this->motion_to_motor_mapping[motion]) {
+                this->motor_pin_to_instance_mapping[this->motor_id_to_pin_mapping[motor_id_to_run]].run(esc_input);
+                this->motors_speed[motor_id_to_run] = esc_input;
+            }
+            Serial.println("====================================================");
+            this->prev_motion = motion;
         }
-        Serial.println("====================================================");
+        this->stabilise();
         return true;
     }
     return false;
@@ -64,6 +71,7 @@ bool MotorController::move(std::map<int, int> map_motor_id_to_speed) {
     if(map_motor_id_to_speed.size() == this->motor_pin_to_instance_mapping.size()) {
         for (const auto &[motor_id, esc_input]: map_motor_id_to_speed) {
             this->motor_pin_to_instance_mapping[this->motor_id_to_pin_mapping[motor_id]].run(esc_input);
+            this->motors_speed[motor_id] = esc_input;
         }
         return true;
     }
@@ -82,6 +90,7 @@ bool MotorController::stop() {
         this->motor_pin_to_instance_mapping[pin].stop();
     }
     Serial.println("====================================================");
+    this->prev_motion = "stop";
     return true;
 }
 
@@ -129,4 +138,62 @@ std::map<std::string, std::map<byte, int>> MotorController::load_motion_to_motor
             {"pitch-backward",  {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
     return motion_to_motor_pins_map;
+}
+
+/**
+* The implementation of the function to stabilise the robot with respect to the current motion.
+* @return {bool} indicates whether the execution of the stabilised motion was successful or not
+*/
+bool MotorController::stabilise() {
+    return this->move(this->motor_id_to_stabilised_speed_mapping);
+}
+
+/**
+* The implementation of the function to initialise ROS communication with the motor controller.
+* @param robot_motion_publisher {ros::Publisher} indicates the publisher of the robot motion
+* @param stabilise_speed_subscriber {ros::Subscriber<sauvc2020_msgs::MotorSpeed>} indicates the subscriber for
+*        robot stabilised speed
+* @return {bool} indicates whether the initialisation was successful or not
+*/
+bool MotorController::init_ros_communication(ros::Publisher robot_motion_publisher,
+        ros::Subscriber<sauvc2020_msgs::MotorSpeed> stabilise_speed_subscriber) {
+    this->stabilised_speed_subscriber = stabilise_speed_subscriber;
+    this->robot_motion_publisher = robot_motion_publisher;
+    return true;
+}
+
+/**
+ * The implementation of the function to update the motor stabilised speed.
+ * @param data {sauvc2020_msgs::MotorSpeed} indicates the stabilised speed data
+ * @return {bool} indicates whether the update was successful or not
+ */
+bool MotorController::update_motor_stabilised_speed(sauvc2020_msgs::MotorSpeed& data) {
+    this->motor_id_to_stabilised_speed_mapping[1] = int(data.motor_id1_speed);
+    this->motor_id_to_stabilised_speed_mapping[2] = int(data.motor_id2_speed);
+    this->motor_id_to_stabilised_speed_mapping[3] = int(data.motor_id3_speed);
+    this->motor_id_to_stabilised_speed_mapping[4] = int(data.motor_id4_speed);
+    this->motor_id_to_stabilised_speed_mapping[5] = int(data.motor_id5_speed);
+    this->motor_id_to_stabilised_speed_mapping[6] = int(data.motor_id6_speed);
+    this->motor_id_to_stabilised_speed_mapping[7] = int(data.motor_id7_speed);
+    this->motor_id_to_stabilised_speed_mapping[8] = int(data.motor_id8_speed);
+    return true;
+}
+
+/**
+* The implementation of the function to publish the robot motion.
+* @return {bool} indicates whether the publish was successful or not
+*/
+bool MotorController::publish_robot_motion() {
+    sauvc2020_msgs::MotionData data;
+    data.motion = this->prev_motion;
+    data.motors_speed.motor_id1_speed = this->motors_speed[1];
+    data.motors_speed.motor_id2_speed = this->motors_speed[2];
+    data.motors_speed.motor_id3_speed = this->motors_speed[3];
+    data.motors_speed.motor_id4_speed = this->motors_speed[4];
+    data.motors_speed.motor_id5_speed = this->motors_speed[5];
+    data.motors_speed.motor_id6_speed = this->motors_speed[6];
+    data.motors_speed.motor_id7_speed = this->motors_speed[7];
+    data.motors_speed.motor_id1_speed = this->motors_speed[8];
+    this->robot_motion_publisher.publish(&data);
+    return true;
 }

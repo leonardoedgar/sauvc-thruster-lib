@@ -43,9 +43,13 @@ bool MotorController::register_motor(std::vector<int> motor_pins_to_register) {
  */
 bool MotorController::move(std::string motion) {
     if (this->motion_to_motor_mapping.find(motion) != this->motion_to_motor_mapping.end()) {
-        for (const auto &[motor_pin_to_run, esc_input]: this->motion_to_motor_mapping[motion]) {
-            this->motor_pin_to_instance_mapping[motor_pin_to_run].run(esc_input);
+        if (this->prev_motion != motion) {
+            for (const auto &[motor_pin_to_run, esc_input]: this->motion_to_motor_mapping[motion]) {
+                this->motor_pin_to_instance_mapping[motor_pin_to_run].run(esc_input);
+            }
+            this->prev_motion = motion;
         }
+        this->stabilise();
         return true;
     }
     return false;
@@ -74,6 +78,7 @@ bool MotorController::stop() {
     for (const auto &[pin, motor_driver]: this->motor_pin_to_instance_mapping) {
         this->motor_pin_to_instance_mapping[pin].stop();
     }
+    this->prev_motion = "stop";
     return true;
 }
 
@@ -120,4 +125,11 @@ std::map<std::string, std::map<int, int>> MotorController::load_motion_to_motor_
             {"pitch-backward", {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
     return motion_to_motor_pins_map;
+}
+/**
+* The implementation of the function to stabilise the robot with respect to the current motion.
+* @return {bool} indicates whether the execution of the stabilised motion was successful or not
+*/
+bool MotorController::stabilise() {
+    return this->move(this->motor_id_to_stabilised_speed_mapping);
 }

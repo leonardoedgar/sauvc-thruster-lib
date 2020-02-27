@@ -10,6 +10,8 @@ private:
     std::map <int, MotorDriver> motor_pin_to_instance_mapping;
     std::map <std::string, std::map<int, int>> motion_to_motor_mapping;
     std::map <int, int> motor_id_to_pin_mapping;
+    std::map <int, int> motor_id_to_stabilised_speed_mapping;
+    std::string prev_motion = "stop";
 
     /**
      * A function to register motors needed with its respective pins.
@@ -35,6 +37,12 @@ private:
     * @return {map} indicates the mapping of motion to motors
     */
     std::map<std::string, std::map<int, int>> load_motion_to_motor_config();
+
+    /**
+     * A function to stabilise the robot with respect to the current motion.
+     * @return {bool} indicates whether the execution of the stabilised motion was successful or not
+     */
+    bool stabilise ();
 
 public:
     /**
