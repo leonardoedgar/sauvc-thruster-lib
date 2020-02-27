@@ -2,8 +2,6 @@
 * rosserial Subscriber Example
 */
 # include <ros.h>
-# include <sauvc2020_msgs/MotorSpeed.h>
-# include <geometry_msgs/QuaternionStamped.h>
 # include <motor_driver.h>
 # include <motor_controller.h>
 
@@ -11,15 +9,12 @@
 MotorController motor_controller; 
 ros::NodeHandle nh;
 
-geometry_msgs::QuaternionStamped str_msg;
-ros::Subscriber<sauvc2020_msgs::MotorSpeed> sub("chatter", &motor_controller.update_motor_stabilised_speed);
-ros::Publisher chatter("chatter_resp", &str_msg); 
-
 void setup() {
   nh.initNode();
   nh.getHardware()->setBaud(9600);
   motor_controller.setup();
-  motor_controller.init_ros_communication(chatter, sub);
+  nh.advertise(motor_controller.robot_motion_publisher);
+  nh.subscribe(motor_controller.stabilised_speed_subscriber);
   Serial.begin(9600);
 }
  

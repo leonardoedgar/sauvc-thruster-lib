@@ -6,6 +6,8 @@
 # include <string>
 # include <ros.h>
 # include <sauvc2020_msgs/MotorSpeed.h>
+# include <sauvc2020_msgs/MotionData.h>
+# include <geometry_msgs/QuaternionStamped.h>
 
 class MotorController {
 private:
@@ -14,8 +16,6 @@ private:
     std::map <int, byte> motor_id_to_pin_mapping;
     std::map <int, int> motor_id_to_stabilised_speed_mapping;
     std::string prev_motion = "stop";
-    ros::Subscriber<sauvc2020_msgs::MotorSpeed> stabilised_speed_subscriber;
-    ros::Publisher robot_motion_publisher;
     std::map<int, int> motors_speed = {{1, 0}, {2, 0},
                                        {3, 0}, {4, 0},
                                        {5, 0}, {6, 0},
@@ -52,22 +52,17 @@ private:
      */
     bool stabilise ();
 
+    sauvc2020_msgs::MotionData motion_data;
+
 public:
+    ros::Subscriber<sauvc2020_msgs::MotorSpeed, MotorController> stabilised_speed_subscriber =
+                    stabilised_speed_subscriber("chatter", &MotorController::update_motor_stabilised_speed, this);
+    ros::Publisher robot_motion_publisher = robot_motion_publisher("chatter_resp", &motion_data);
     /**
     * A function to setup the motor controller.
     * @return {bool} indicates whether the setup was successful or not
     */
     bool setup();
-
-    /**
-     * A function to initialise ROS communication with the motor controller.
-     * @param robot_motion_publisher {ros::Publisher} indicates the publisher of the robot motion
-     * @param stabilise_speed_subscriber {ros::Subscriber<sauvc2020_msgs::MotorSpeed>} indicates the subscriber for
-     *        robot stabilised speed
-     * @return {bool} indicates whether the initialisation was successful or not
-     */
-    bool init_ros_communication(ros::Publisher robot_motion_publisher,
-                                ros::Subscriber<sauvc2020_msgs::MotorSpeed> stabilise_speed_subscriber);
 
     /**
      * A function to update the motor stabilised speed.

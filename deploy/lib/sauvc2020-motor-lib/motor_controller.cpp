@@ -6,6 +6,7 @@
 # include <Arduino.h>
 # include "./config/config.h"
 # include <sauvc2020_msgs/MotionData.h>
+# include <geometry_msgs/QuaternionStamped.h>
 
 /***
  * The implementation of the function to setup the motor controller
@@ -149,20 +150,6 @@ bool MotorController::stabilise() {
 }
 
 /**
-* The implementation of the function to initialise ROS communication with the motor controller.
-* @param robot_motion_publisher {ros::Publisher} indicates the publisher of the robot motion
-* @param stabilise_speed_subscriber {ros::Subscriber<sauvc2020_msgs::MotorSpeed>} indicates the subscriber for
-*        robot stabilised speed
-* @return {bool} indicates whether the initialisation was successful or not
-*/
-bool MotorController::init_ros_communication(ros::Publisher robot_motion_publisher,
-        ros::Subscriber<sauvc2020_msgs::MotorSpeed> stabilise_speed_subscriber) {
-    this->stabilised_speed_subscriber = stabilise_speed_subscriber;
-    this->robot_motion_publisher = robot_motion_publisher;
-    return true;
-}
-
-/**
  * The implementation of the function to update the motor stabilised speed.
  * @param data {sauvc2020_msgs::MotorSpeed} indicates the stabilised speed data
  * @return {bool} indicates whether the update was successful or not
@@ -185,7 +172,7 @@ bool MotorController::update_motor_stabilised_speed(sauvc2020_msgs::MotorSpeed& 
 */
 bool MotorController::publish_robot_motion() {
     sauvc2020_msgs::MotionData data;
-    data.motion = this->prev_motion;
+    data.motion = this->prev_motion.c_str();
     data.motors_speed.motor_id1_speed = this->motors_speed[1];
     data.motors_speed.motor_id2_speed = this->motors_speed[2];
     data.motors_speed.motor_id3_speed = this->motors_speed[3];
