@@ -5,13 +5,15 @@
 # include <map>
 # include <Arduino.h>
 # include "./config/config.h"
+
 /***
  * The implementation of the function to setup the motor controller
  * @return {bool} indicates whether the setup was successful or not
  */
 bool MotorController::setup() {
-    bool registration_success = register_motor(MOTOR_PINS_TO_REGISTER);
-    store_motion_to_motor_mapping();
+    bool registration_success = this->register_motor(MOTOR_PINS_TO_REGISTER);
+    this->store_motion_to_motor_mapping();
+    this->store_motor_id_to_pin_mapping();
     delay(1000);
     std::string registration_status {"false"};
     if (registration_success) {
@@ -31,9 +33,9 @@ bool MotorController::setup() {
  */
 bool MotorController::register_motor(std::vector<byte> motor_pins_to_register) {
     for (byte motor_pin: motor_pins_to_register) {
-        motor_pin_to_instance_mapping.insert(std::pair<byte, MotorDriver>(motor_pin, MotorDriver(motor_pin)));
+        this->motor_pin_to_instance_mapping.insert(std::pair<byte, MotorDriver>(motor_pin, MotorDriver(motor_pin)));
     }
-    return motor_pin_to_instance_mapping.size() == motor_pins_to_register.size();
+    return this->motor_pin_to_instance_mapping.size() == motor_pins_to_register.size();
 }
 
 /**
@@ -42,19 +44,39 @@ bool MotorController::register_motor(std::vector<byte> motor_pins_to_register) {
  * @return {bool} indicates whether the execution of movement was successful or not
  */
 bool MotorController::move(std::string motion) {
-    if (motion_to_motor_mapping.find(motion) != motion_to_motor_mapping.end()) {
-        Serial.println("====================================================");
-        Serial.println("Robot executing motion: [" + String(motion.c_str()) + "].");
-        for (const auto &[motor_pin_to_run, esc_input]: motion_to_motor_mapping[motion]) {
-            motor_pin_to_instance_mapping[motor_pin_to_run].run(esc_input);
+    if (this->motion_to_motor_mapping.find(motion) != this->motion_to_motor_mapping.end()) {
+        if (this->prev_motion != motion) {
+            Serial.println("====================================================");
+            Serial.println("Robot executing motion: [" + String(motion.c_str()) + "].");
+            for (const auto &[motor_id_to_run, esc_input]: this->motion_to_motor_mapping[motion]) {
+                this->motor_pin_to_instance_mapping[this->motor_id_to_pin_mapping[motor_id_to_run]].run(esc_input);
+                this->motors_speed[motor_id_to_run] = esc_input;
+            }
+            Serial.println("====================================================");
+            this->prev_motion = motion;
         }
-        Serial.println("====================================================");
+        this->stabilise();
+        return true;
     }
-    else {
-        return false;
-    }
-    return true;
+    return false;
 }
+
+/**
+ * The implementation of the function to move the robot.
+ * @param map_motor_id_to_speed {std::map<int, int>} indicates motor id and the speed to drive.
+ * @return {bool} indicates whether the execution of movement was successful or not
+ */
+bool MotorController::move(std::map<int, int> map_motor_id_to_speed) {
+    if(map_motor_id_to_speed.size() == this->motor_pin_to_instance_mapping.size()) {
+        for (const auto &[motor_id, esc_input]: map_motor_id_to_speed) {
+            this->motor_pin_to_instance_mapping[this->motor_id_to_pin_mapping[motor_id]].run(esc_input);
+            this->motors_speed[motor_id] = esc_input;
+        }
+        return true;
+    }
+    return false;
+}
+
 
 /**
  * The implementation of the function to stop the robot from moving.
@@ -63,10 +85,11 @@ bool MotorController::move(std::string motion) {
 bool MotorController::stop() {
     Serial.println("====================================================");
     Serial.println("Robot executing motion: [stop].");
-    for (const auto &[pin, motor_driver]: motor_pin_to_instance_mapping) {
-        motor_pin_to_instance_mapping[pin].stop();
+    for (const auto &[pin, motor_driver]: this->motor_pin_to_instance_mapping) {
+        this->motor_pin_to_instance_mapping[pin].stop();
     }
     Serial.println("====================================================");
+    this->prev_motion = "stop";
     return true;
 }
 
@@ -75,12 +98,24 @@ bool MotorController::stop() {
  * @return {bool} indicates whether the storing was successful or not
  */
 bool MotorController::store_motion_to_motor_mapping() {
-    std::map<std::string, std::map<byte, int>> motion_to_motor_config = load_motion_to_motor_config();
+    std::map<std::string, std::map<byte, int>> motion_to_motor_config = this->load_motion_to_motor_config();
     for ( const auto &[motion, motor_with_esc_input]: motion_to_motor_config ) {
-        motion_to_motor_mapping.insert(std::pair<std::string, std::map<byte, int>>(motion, motor_with_esc_input));
+        this->motion_to_motor_mapping.insert(std::pair<std::string, std::map<byte, int>>(motion, motor_with_esc_input));
     }
-    return motion_to_motor_mapping.size() == motion_to_motor_config.size();
+    return this->motion_to_motor_mapping.size() == motion_to_motor_config.size();
 }
+
+/**
+* A function to store the mapping of motor id to motor pin.
+* @return {bool} indicates whether the storing was successful or not
+*/
+bool MotorController::store_motor_id_to_pin_mapping() {
+    for(const auto &[motor_id, motor_pin]: std::map<int, byte> {MOTOR_ID_TO_PIN_MAPPING}) {
+        this->motor_id_to_pin_mapping.insert(std::pair<int, byte>(motor_id, motor_pin));
+    }
+    return this->motor_id_to_pin_mapping.size() == this->motor_pin_to_instance_mapping.size();
+}
+
 
 /**
  * The implementation of the function to load pre-defined motors' motion.
@@ -102,4 +137,28 @@ std::map<std::string, std::map<byte, int>> MotorController::load_motion_to_motor
             {"pitch-backward",  {MOTOR_AND_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
     return motion_to_motor_pins_map;
+}
+
+/**
+* The implementation of the function to stabilise the robot with respect to the current motion.
+* @return {bool} indicates whether the execution of the stabilised motion was successful or not
+*/
+bool MotorController::stabilise() {
+    return this->move(this->motor_id_to_stabilised_speed_mapping);
+}
+
+
+bool MotorController::set_stabilised_speed(std::map<int, int> stabilised_speed) {
+    for (int i=1 ; i<1;i++) {
+        this->motor_id_to_stabilised_speed_mapping[i] = stabilised_speed[i];
+    }
+    return true;
+}
+
+std::map<int, int> MotorController::get_motors_speed() {
+    return this->motors_speed;
+}
+
+std::string MotorController::get_motion() {
+    return this->prev_motion;
 }
