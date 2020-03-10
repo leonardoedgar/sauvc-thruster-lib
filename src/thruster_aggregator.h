@@ -9,7 +9,8 @@ class ThrusterAggregator {
 private:
     std::map <int, Thruster> thruster_id_to_instance_map;
     std::map <std::string, std::map<int, int>> motion_to_thruster_id_to_esc_input_map;
-
+    std::map<int, int> thruster_id_to_stabilised_speed_map;
+    std::map<int, int> thruster_id_to_actual_speed_map;
     /**
      * A function to add thrusters to the thruster aggregator.
      * @param thrusters_id_and_pin_to_add {std::map<int, int>} represents thrusters' id and pin to add
@@ -48,6 +49,24 @@ public:
      * @return {bool} whether the stopping was successful or not.
      */
     bool stop() const;
+
+    /**
+     * A function to stabilise thrusters.
+     * @return {bool} whether the stabilisation was successful or not
+     */
+    bool stabilise();
+
+    /**
+     * A function to update thrusters' stabilised speed.
+     * @param new_thruster_id_to_stabilised_speed_map {std::map <int, int>} thrusters' stabilised speed.
+     */
+    void update_stabilised_speed(std::map<int, int> new_thruster_id_to_stabilised_speed_map);
+
+    /**
+     * A function to get the actual thrusters' speed.
+     * @return {std::map<int, int>} actual thrusters' speed
+     */
+    std::map <int, int> get_actual_thrusters_speed();
 };
 
 #endif //SAUVC2020_THRUSTER_AGGREGATOR_H
