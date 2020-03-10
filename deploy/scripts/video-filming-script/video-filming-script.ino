@@ -1,5 +1,5 @@
-# include <motor_driver.h>
-# include <motor_controller.h>
+# include <thruster.h>
+# include <thruster_aggregator.h>
 # include <ArduinoSTL.h>
 # include <Wire.h>
 # include <MS5837.h>

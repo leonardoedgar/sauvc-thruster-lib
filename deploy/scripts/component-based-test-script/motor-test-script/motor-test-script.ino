@@ -1,5 +1,5 @@
-# include <motor_driver.h>
-# include <motor_controller.h>
+# include <thruster.h>
+# include <thruster_aggregator.h>
 
 // Initialise Motor Controller
 MotorController motor_controller;
