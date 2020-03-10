@@ -1,4 +1,4 @@
-# sauvc2020-thruster-lib
+# sauvc-thruster-lib
 
 To generate Makefiles from project files
 
