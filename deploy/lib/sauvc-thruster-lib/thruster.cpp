@@ -34,7 +34,7 @@ int Thruster::get_id() const {
  * @return {bool} whether the thruster runs successfully or not
  */
 bool Thruster::run(int esc_input) const {
-    int safe_esc_input = this->get_safe_esc_input(esc_input);
+    int safe_esc_input = Thruster::get_safe_esc_input(esc_input);
     Serial.println(
             "Thruster with id: " + String(this->id) + " with pin: " + String(this->pin) + " is running with " \
             "ESC input: " + String(safe_esc_input) + "."
@@ -57,7 +57,7 @@ bool Thruster::stop() const {
  * @param esc_input_value {int} indicates the desired esc input
  * @return {int} represents the safe esc input
  */
-int Thruster::get_safe_esc_input(int esc_input) const {
+int Thruster::get_safe_esc_input(int esc_input) {
     if (esc_input > MAX_ESC_INPUT) {
         return MAX_ESC_INPUT;
     }

@@ -33,7 +33,7 @@ int Thruster::get_id() const {
 bool Thruster::run(int esc_input) const {
     std::cout << std::fixed;
     std::cout << "Thruster with id: " << this->id << " with pin: " << this->pin << " is running with ESC input: " << \
-        this->get_safe_esc_input(esc_input) << ".\n";
+        Thruster::get_safe_esc_input(esc_input) << ".\n";
     return true;
 }
 
@@ -51,7 +51,7 @@ bool Thruster::stop() const {
  * @param esc_input_value {int} indicates the desired esc input
  * @return {int} represents the safe esc input
  */
-int Thruster::get_safe_esc_input(int esc_input) const {
+int Thruster::get_safe_esc_input(int esc_input) {
     if (esc_input > MAX_ESC_INPUT) {
         return MAX_ESC_INPUT;
     }

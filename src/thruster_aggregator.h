@@ -27,7 +27,7 @@ private:
      * A function to load pre-defined thrusters' motion.
      * @return {std::map<int,int>} the motion to thruster id to esc input map
      */
-     static std::map<std::string, std::map<int, int>> load_predefined_motion();
+    std::map<std::string, std::map<int, int>> static load_predefined_motion();
 
 public:
     /**
@@ -47,7 +47,7 @@ public:
      * A function to stop all thrusters.
      * @return {bool} whether the stopping was successful or not.
      */
-    bool stop() const;
+    bool stop();
 
     /**
      * A function to stabilise thrusters.

@@ -32,6 +32,18 @@ public:
      * @return {std::string} AUV motion
      */
     std::string get_motion() const;
+
+    /**
+     * A function to update thrusters' stabilised speed.
+     * @param new_thruster_id_to_stabilised_speed_map {std::map <int, int>} thrusters' stabilised speed.
+     */
+    void update_stabilised_speed(std::map<int, int> new_thruster_id_to_stabilised_speed_map);
+
+    /**
+     * A function to get the actual thrusters' speed.
+     * @return {std::map<int, int>} actual thrusters' speed
+     */
+    std::map <int, int> get_actual_thrusters_speed();
 };
 
 

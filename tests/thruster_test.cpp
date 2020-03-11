@@ -36,9 +36,9 @@ TEST_F(ThrusterTest, run_with_correct_speed) {
  * Test that thruster is able to convert ESC value to be within safety range.
  */
 TEST_F(ThrusterTest, get_safe_esc_input_value) {
-    ASSERT_EQ(sample_thruster.get_safe_esc_input(1600),1600);
-    ASSERT_EQ(sample_thruster.get_safe_esc_input(1900), MAX_ESC_INPUT);
-    ASSERT_EQ(sample_thruster.get_safe_esc_input(1100), MIN_ESC_INPUT);
+    ASSERT_EQ(Thruster::get_safe_esc_input(1600),1600);
+    ASSERT_EQ(Thruster::get_safe_esc_input(1900), MAX_ESC_INPUT);
+    ASSERT_EQ(Thruster::get_safe_esc_input(1100), MIN_ESC_INPUT);
 }
 
 /**

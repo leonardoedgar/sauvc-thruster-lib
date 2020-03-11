@@ -5,12 +5,6 @@ class Thruster {
 private:
     int pin{};
     int id{};
-    /**
-    * A function to get a safe esc input value
-    * @param esc_input {int} the desired esc input
-    * @return {int} the safe esc input
-    */
-    int get_safe_esc_input(int esc_input) const;
 
 public:
     Thruster();
@@ -38,6 +32,13 @@ public:
      * @return {bool} whether the stopping was successful or not
      */
     bool stop() const;
+
+    /**
+    * A function to get a safe esc input value
+    * @param esc_input {int} the desired esc input
+    * @return {int} the safe esc input
+    */
+    int static get_safe_esc_input(int esc_input) ;
 };
 
 #endif //SAUVC2020_THRUSTER_H

@@ -80,6 +80,7 @@ bool ThrusterAggregator::move(const std::string& motion) {
     if (this->motion_to_thruster_id_to_esc_input_map.find(motion) != this->motion_to_thruster_id_to_esc_input_map.end()) {
         for (const auto &[thruster_id_to_run, esc_input]: this->motion_to_thruster_id_to_esc_input_map[motion]) {
             this->thruster_id_to_instance_map[thruster_id_to_run].run(esc_input);
+            this->thruster_id_to_actual_speed_map[thruster_id_to_run] = Thruster::get_safe_esc_input(esc_input);
         }
         return true;
     }
@@ -92,9 +93,10 @@ bool ThrusterAggregator::move(const std::string& motion) {
  * The implementation of the function to stop all thrusters.
  * @return {bool} whether the stopping was successful or not
  */
-bool ThrusterAggregator::stop() const {
+bool ThrusterAggregator::stop() {
     for (const auto &[id, thruster]: thruster_id_to_instance_map) {
         thruster.stop();
+        this->thruster_id_to_actual_speed_map[id] = int(ESC_INPUT_FOR_STOP_SIGNAL);
     }
     return true;
 }
@@ -104,8 +106,14 @@ bool ThrusterAggregator::stop() const {
  * @return {bool} whether the stabilisation was successful or not
  */
 bool ThrusterAggregator::stabilise() {
+    for (const auto &[id, thruster]: this->thruster_id_to_instance_map) {
+        if(this->thruster_id_to_stabilised_speed_map.find(id) == this->thruster_id_to_stabilised_speed_map.end()) {
+            return false;
+        }
+    }
     for (const auto &[id, stabilised_esc_input]: this->thruster_id_to_stabilised_speed_map) {
         this->thruster_id_to_instance_map[id].run(stabilised_esc_input);
+        this->thruster_id_to_actual_speed_map[id] = Thruster::get_safe_esc_input(stabilised_esc_input);
     }
     return true;
 }
