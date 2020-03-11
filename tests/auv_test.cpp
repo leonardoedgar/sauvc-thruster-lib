@@ -23,8 +23,16 @@ TEST_F(AUVTest, move) {
 /**
  * Test that AUV is able to stop.
  */
- TEST_F(AUVTest, stop) {
+TEST_F(AUVTest, stop) {
      sample_auv.move("forward");
      sample_auv.stop();
      ASSERT_EQ(sample_auv.motion, "stop");
- }
+}
+/**
+ * Test that AUV is able to give its motion.
+ */
+TEST_F(AUVTest, get_motion) {
+    ASSERT_EQ(sample_auv.get_motion(), initial_motion);
+    sample_auv.move("forward");
+    ASSERT_EQ(sample_auv.get_motion(), "forward");
+}

@@ -2,8 +2,8 @@
 # include "thruster.h"
 # include <string>
 # include <map>
-# include <iostream>
-# include "../config/config.h"
+# include <Arduino.h>
+# include "config/config.h"
 /***
  * The implementation of the function to setup the thruster aggregator
  * @return {bool} whether the setup was successful or not
@@ -11,6 +11,7 @@
 bool ThrusterAggregator::setup() {
     bool addition_success = this->add_thrusters({THRUSTER_ID_TO_ARDUINO_PIN});
     bool store_success = this->store_motion_to_thruster_id_and_esc_input_map();
+    delay(1000);
     std::string setup_success {"false"};
     if (addition_success and store_success) {
         setup_success = "true";
@@ -18,16 +19,16 @@ bool ThrusterAggregator::setup() {
     else {
         setup_success = "false";
     }
-    std::cout << "Thruster aggregator setup's success : "  << setup_success << ".\n";
+    Serial.println("Thruster aggregator setup's success: " + String(setup_success.c_str()));
     return addition_success and store_success;
 }
 
 /**
  * The implementation of the function to add thrusters to thruster aggregator.
- * @param thrusters_id_and_pin_to_add {std::map<int, int>} represents thrusters' id and pin to add
+ * @param thrusters_id_and_pin_to_add {std::map<int, byte>} represents thrusters' id and pin to add
  * @return {bool} whether the addition was successful or not
  */
-bool ThrusterAggregator::add_thrusters(const std::map<int, int>& thrusters_id_and_pin_to_add) {
+bool ThrusterAggregator::add_thrusters(const std::map<int, byte>& thrusters_id_and_pin_to_add) {
     for (const auto &[thruster_id, thruster_pin]: thrusters_id_and_pin_to_add) {
         thruster_id_to_instance_map.insert(std::pair<int, Thruster>(thruster_id, Thruster(thruster_id, thruster_pin)));
     }

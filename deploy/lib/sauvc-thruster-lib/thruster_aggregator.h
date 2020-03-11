@@ -1,6 +1,7 @@
 # ifndef SAUVC2020_THRUSTER_AGGREGATOR_H
 # define SAUVC2020_THRUSTER_AGGREGATOR_H
 # include "thruster.h"
+# include <Arduino.h>
 # include <map>
 # include <string>
 
@@ -12,10 +13,10 @@ private:
     std::map<int, int> thruster_id_to_actual_speed_map;
     /**
      * A function to add thrusters to the thruster aggregator.
-     * @param thrusters_id_and_pin_to_add {std::map<int, int>} represents thrusters' id and pin to add
+     * @param thrusters_id_and_pin_to_add {std::map<int, byte>} represents thrusters' id and pin to add
      * @return {bool} whether the addition was successful or not
      */
-    bool add_thrusters(const std::map<int, int>& thrusters_id_and_pin_to_add);
+    bool add_thrusters(const std::map<int, byte>& thrusters_id_and_pin_to_add);
 
     /**
      * A function to store the mapping of a motion type to thrusters' id and esc input to run.

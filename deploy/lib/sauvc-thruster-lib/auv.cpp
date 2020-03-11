@@ -1,5 +1,6 @@
 # include "auv.h"
 # include "thruster_aggregator.h"
+# include <Arduino.h>
 /**
  * The implementation of the function to setup the AUV.
  * @return {bool} whether the setup was successful or not.

@@ -1,5 +1,6 @@
 # ifndef SAUVC_THRUSTER_LIB_AUV_H
 # define SAUVC_THRUSTER_LIB_AUV_H
+# include <Arduino.h>
 # include <thruster_aggregator.h>
 # include <string>
 
