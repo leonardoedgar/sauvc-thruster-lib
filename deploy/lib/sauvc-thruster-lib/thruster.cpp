@@ -5,7 +5,8 @@
 # include "config/config.h"
 
 Thruster::Thruster(int id, byte pin): id{id}, pin{pin}{
-
+   this->servo.attach(pin);
+   this->servo.writeMicroseconds(1500);
 }
 
 Thruster::Thruster() {
