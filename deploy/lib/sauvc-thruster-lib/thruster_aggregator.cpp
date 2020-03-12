@@ -40,8 +40,10 @@ bool ThrusterAggregator::add_thrusters(const std::map<int, byte>& thrusters_id_a
  * @return {bool} indicates whether the storing was successful or not
  */
 bool ThrusterAggregator::store_motion_to_thruster_id_and_esc_input_map() {
+	Serial.println("ya");
     std::map<std::string, std::map<int, int>> loaded_predefined_motion =
             ThrusterAggregator::load_predefined_motion();
+    Serial.println("yu");
     for ( const auto &[motion, motor_id_to_esc_input]: loaded_predefined_motion ) {
         motion_to_thruster_id_to_esc_input_map.insert(std::pair<std::string,
                 std::map<int, int>>(motion, motor_id_to_esc_input));
@@ -56,17 +58,8 @@ bool ThrusterAggregator::store_motion_to_thruster_id_and_esc_input_map() {
 std::map<std::string, std::map<int, int>> ThrusterAggregator::load_predefined_motion() {
     return {
             {"forward", {THRUSTER_ID_TO_ESC_INPUT_FOR_FORWARD}},
-            {"backward", {THRUSTER_ID_TO_ESC_INPUT_FOR_BACKWARD}},
             {"submerge", {THRUSTER_ID_TO_ESC_INPUT_FOR_SUBMERGE}},
             {"surface", {THRUSTER_ID_TO_ESC_INPUT_FOR_SURFACE}},
-            {"rotate-left", {THRUSTER_ID_TO_ESC_INPUT_FOR_ROTATE_LEFT}},
-            {"rotate-right", {THRUSTER_ID_TO_ESC_INPUT_FOR_ROTATE_RIGHT}},
-            {"translate-left", {THRUSTER_ID_TO_ESC_INPUT_FOR_TRANSLATE_LEFT}},
-            {"translate-right", {THRUSTER_ID_TO_ESC_INPUT_FOR_TRANSLATE_RIGHT}},
-            {"roll-left", {THRUSTER_ID_TO_ESC_INPUT_FOR_ROLL_LEFT}},
-            {"roll-right", {THRUSTER_ID_TO_ESC_INPUT_FOR_ROLL_RIGHT}},
-            {"pitch-forward", {THRUSTER_ID_TO_ESC_INPUT_FOR_PITCH_FORWARD}},
-            {"pitch-backward", {THRUSTER_ID_TO_ESC_INPUT_FOR_PITCH_BACKWARD}}
     };
 }
 
