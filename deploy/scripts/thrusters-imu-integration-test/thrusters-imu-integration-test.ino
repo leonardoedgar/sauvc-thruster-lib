@@ -3,6 +3,7 @@
 # include <sauvc_msgs/MotionData.h>
 # include <auv.h>
 
+
 ros::NodeHandle nh;
 sauvc_msgs::MotionData motion_data;
 
@@ -51,7 +52,18 @@ void loop() {
 }
 
 void update_motion_data() {
-  motion_data.motion = auv.get_motion().c_str();
+  if (auv.get_motion() == "forward") {
+    motion_data.motion = "forward";
+  }
+  else if (auv.get_motion() == "submerge"){
+    motion_data.motion = "submerge";
+  }
+  else if (auv.get_motion() == "surface") {
+    motion_data.motion = "surface";
+  }
+  else if (auv.get_motion() == "stop") {
+    motion_data.motion = "stop";
+  }
   std::map <int, int> thrusters_id_to_actual_speed_map = auv.get_actual_thrusters_speed();
   motion_data.thrusters_speed.thruster_id1_speed = thrusters_id_to_actual_speed_map[1];
   motion_data.thrusters_speed.thruster_id2_speed = thrusters_id_to_actual_speed_map[2];
