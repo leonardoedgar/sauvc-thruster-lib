@@ -21,6 +21,7 @@ bool AUV::move(std::string motion) {
     }
     else {
         this->motion = motion;
+	this->thruster_aggregator.update_stabilised_speed({});
         return this->thruster_aggregator.move(motion);
     }
 }

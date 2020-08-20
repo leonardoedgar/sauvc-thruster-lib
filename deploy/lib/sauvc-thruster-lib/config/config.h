@@ -32,16 +32,16 @@
 # define ESC_INPUT_FOR_STOP_SIGNAL int(1500)
 
 /**
- * ESC Input Value of motors for each motion.
+ * ESC Input Value of motors for each motion. 1600 1593 1600 1592
  */
-# define THRUSTER_ID_TO_ESC_INPUT_FOR_FORWARD {1, 1700}, \
-                                              {2, 1700}, \
-                                              {3, 1700}, \
-                                              {4, 1700}, \
-                                              {5, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
-                                              {8, ESC_INPUT_FOR_STOP_SIGNAL}
+# define THRUSTER_ID_TO_ESC_INPUT_FOR_FORWARD {1, 1600}, \
+                                              {2, 1593}, \
+                                              {3, 1600}, \
+                                              {4, 1593}, \ 
+                                              {5, 1425}, \ 
+                                              {6, 1547}, \
+                                              {7, 1421}, \
+                                              {8, 1553}
 # define THRUSTER_ID_TO_ESC_INPUT_FOR_BACKWARD {1, 1400}, \
                                                {2, 1400}, \
                                                {3, 1400}, \
@@ -50,22 +50,22 @@
                                                {6, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                                {7, ESC_INPUT_FOR_STOP_SIGNAL}, \
                                                {8, ESC_INPUT_FOR_STOP_SIGNAL}
-# define THRUSTER_ID_TO_ESC_INPUT_FOR_SUBMERGE {1, 1700}, \
-                                               {2, 1700}, \
-                                               {3, 1700}, \
-                                               {4, 1700}, \
-                                               {5, 1400}, \
-                                               {6, 1600}, \
-                                               {7, 1600}, \
-                                               {8, 1400}
-# define THRUSTER_ID_TO_ESC_INPUT_FOR_SURFACE {1, 1700}, \
-                                              {2, 1700}, \
-                                              {3, 1700}, \
-                                              {4, 1700}, \
-                                              {5, 1600}, \
-                                              {6, 1400}, \
-                                              {7, 1400}, \
-                                              {8, 1600}
+# define THRUSTER_ID_TO_ESC_INPUT_FOR_SUBMERGE {1, 1500}, \
+                                               {2, 1500}, \
+                                               {3, 1500}, \
+                                               {4, 1500}, \
+                                               {5, 1425}, \
+                                               {6, 1563}, \
+                                               {7, 1563}, \
+                                               {8, 1425}
+# define THRUSTER_ID_TO_ESC_INPUT_FOR_SURFACE {1, 1500}, \
+                                              {2, 1500}, \
+                                              {3, 1500}, \
+                                              {4, 1500}, \
+                                              {5, 1550}, \
+                                              {6, 1450}, \
+                                              {7, 1450}, \
+                                              {8, 1550}
 # define THRUSTER_ID_TO_ESC_INPUT_FOR_ROTATE_LEFT {1, 1600}, \
                                                   {2, 1400}, \
                                                   {3, 1600}, \

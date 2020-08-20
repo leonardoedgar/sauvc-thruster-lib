@@ -9,7 +9,7 @@ sauvc_msgs::MotionData motion_data;
 
 AUV auv;
 unsigned long time;
-unsigned long time_out = 5000;
+unsigned long time_out = 50000000;
 
 void messageCb(sauvc_msgs::ThrustersSpeed& msg){
   std::map<int, int> thrusters_id_to_stabilised_speed_map {

@@ -2,16 +2,15 @@
 # include <sauvc_msgs/ThrustersSpeed.h>
 # include <sauvc_msgs/MotionData.h>
 # include <auv.h>
-# include "config.h"
 # include <Wire.h>
 # include <MS5837.h>
+# include "config.h"
 # include "depth_sensor_config.h"
 
-// Initialise ROS Node Handle
+
 ros::NodeHandle nh;
 sauvc_msgs::MotionData motion_data;
 
-//Initialise AUV
 AUV auv;
 
 // Initialise depth sensor
@@ -28,9 +27,8 @@ unsigned long start_time;
  * A callback function when estop is pressed.
  * return {bool} that indicates whether the callback function successfully executed.
  */
-bool callback_estop_pressed() {
+void callback_estop_pressed() {
   e_stop_state = !e_stop_state;
-  return true;
 }
 
 /**
@@ -44,6 +42,7 @@ bool callback_estop_pressed() {
 //}
 
 void messageCb(sauvc_msgs::ThrustersSpeed& msg){
+  nh.loginfo("MESSAGE CB");
   std::map<int, int> thrusters_id_to_stabilised_speed_map {
     {1, int(msg.thruster_id1_speed)},
     {2, int(msg.thruster_id2_speed)},
@@ -59,8 +58,10 @@ void messageCb(sauvc_msgs::ThrustersSpeed& msg){
 ros::Subscriber<sauvc_msgs::ThrustersSpeed> sub("/thrusters/stabilised_speed", &messageCb );
 ros::Publisher chatter("/auv/motion", &motion_data); 
 
+
+unsigned long time_init;
+unsigned long time_out = 5000;
 void setup() {
-  // Setup ROS Communications
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(chatter);
@@ -69,7 +70,7 @@ void setup() {
   //Setup AUV
   auv.setup();
   
-  // Setup e-stop pin
+    // Setup e-stop pin
   pinMode(ESTOP_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(ESTOP_PIN), callback_estop_pressed, CHANGE);
 
@@ -84,17 +85,16 @@ void setup() {
 //  }
 //  depth_sensor.setModel(DEPTH_SENSOR_MODEL);
 //  depth_sensor.setFluidDensity(FLUID_DENSITY); // kg/m^3 (freshwater, 1029 for seawater)
+   time_init = millis();
 }
  
 void loop() {
   if (e_stop_state == LOW) {
-    Serial.println("state: [stop]");
     auv.stop();
-    start_time = millis();
   }
-  if (e_stop_state == HIGH) {
+  if (e_stop_state == HIGH){
     auv.move("forward");
-//    if (get_current_depth() > OPERATING_DEPTH - DEPTH_TOLERANCE) {
+    //    if (get_current_depth() > OPERATING_DEPTH - DEPTH_TOLERANCE) {
 //      if (millis() - start_time > MOVE_TIMEOUT) {
 //        if(get_current_depth() < DEPTH_TOLERANCE) {
 //          Serial.println("state: [stop]");

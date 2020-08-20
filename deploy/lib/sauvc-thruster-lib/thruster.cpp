@@ -40,7 +40,7 @@ bool Thruster::run(int esc_input) const {
             "Thruster with id: " + String(this->id) + " with pin: " + String(this->pin) + " is running with " \
             "ESC input: " + String(safe_esc_input) + "."
             );
-    this->servo.writeMicroseconds(safe_esc_input);
+    //this->servo.writeMicroseconds(safe_esc_input);
     return true;
 }
 

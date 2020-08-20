@@ -116,9 +116,11 @@ bool ThrusterAggregator::stabilise() {
  * @param new_thruster_id_to_stabilised_speed_map {std::map <int, int>} thrusters' stabilised speed.
  */
 void ThrusterAggregator::update_stabilised_speed(std::map<int, int> new_thruster_id_to_stabilised_speed_map) {
-    for (const auto &[thruster_id, stabilised_speed]: new_thruster_id_to_stabilised_speed_map) {
-        this->thruster_id_to_stabilised_speed_map[thruster_id] = new_thruster_id_to_stabilised_speed_map[thruster_id];
-    }
+	Serial.println("UPDATE STABILISED SPEED");
+	this->thruster_id_to_stabilised_speed_map = new_thruster_id_to_stabilised_speed_map;
+    //for (const auto &[thruster_id, stabilised_speed]: new_thruster_id_to_stabilised_speed_map) {
+        //this->thruster_id_to_stabilised_speed_map[thruster_id] = new_thruster_id_to_stabilised_speed_map[thruster_id];
+    //}
 }
 
 /**
